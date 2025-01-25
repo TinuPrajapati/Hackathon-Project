@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Mail, Lock, ArrowRight, GraduationCap, User, Phone, MapPin, Eye, EyeOff } from "lucide-react";
 import axios from "axios";
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     email: "",
-    phone: "",
+    number: "",
     password: "",
     confirmPassword: "",
     location: "",
@@ -39,29 +42,25 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/register`,
-        {
-          username: formData.username,
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-          location: formData.location,
-          gender: formData.gender,
-        },
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/register`,
+        formData,
         {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials:true
         }
       );
-
-      setSuccessMessage("Account created successfully! Redirecting to login...");
-      setTimeout(() => {
-        window.location.href = "/login"; // Redirect to login page
-      }, 3000);
+      Swal.fire({
+        title: response.data.message,
+        icon: "success"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/")
+        }
+      });
     } catch (error) {
-      const message =
-        error.response?.data?.message || "Registration failed. Please try again.";
+      const message = error.response?.data?.message;
       setErrorMessage(message);
     }
   };
@@ -94,16 +93,16 @@ function SignUp() {
             <div className="space-y-4">
               {/* Username */}
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Username
                 </label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <input
-                    id="username"
-                    name="username"
+                    id="name"
+                    name="name"
                     type="text"
-                    value={formData.username}
+                    value={formData.name}
                     onChange={handleChange}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                     placeholder="Choose a username"
@@ -141,7 +140,7 @@ function SignUp() {
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <input
                     id="phone"
-                    name="phone"
+                    name="number"
                     type="tel"
                     value={formData.phone}
                     onChange={handleChange}

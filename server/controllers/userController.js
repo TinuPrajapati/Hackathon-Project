@@ -6,9 +6,19 @@ import { cloudinary } from "../lib/cloudinary.js";
 // Register User
 export const registerUser = async (req, res) => {
   try {
-    const { name, userId, email, password, number,location,gender } = req.body;
+    const { name, email, password, number, location, gender } = req.body;
 
-    // Check if email, userId, or number already exists
+    // Generate a userId using the first part of the name and a random number
+    const generateUserId = (name) => {
+      const randomNum = Math.floor(1000 + Math.random() * 900000); 
+      const namePart = name.replace(/\s+/g, '').substring(0, 4);
+      let userId = (namePart + "_"+randomNum).substring(0, 10); // Ensure the total length is 10
+      return userId.toLowerCase(); // Convert to lowercase for consistency
+    };
+
+    const userId = generateUserId(name);
+
+    // Check if email, generated userId, or number already exists
     const existingUser = await User.findOne({ 
       $or: [{ email }, { userId }, { number }] 
     });
@@ -45,7 +55,7 @@ export const registerUser = async (req, res) => {
 
     // Generate token and set cookie
     generateToken(newUser, res);
-    res.status(201).json({ message: "User registered successfully", newUser });
+    res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Internal Server Error" });
@@ -56,7 +66,6 @@ export const registerUser = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     const {userId} = req.user;
-    console.log(req.user);
     const user = await User.findById(userId);
     if(!user){
       return res.status(404).json({message: "User not found"});
@@ -87,7 +96,7 @@ export const loginUser = async (req, res) => {
 
     // Generate token and set cookie
     generateToken(user, res);
-    res.status(200).json({ message: "Login successful", user });
+    res.status(200).json({ message: "Login successful" });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Internal Server error" });

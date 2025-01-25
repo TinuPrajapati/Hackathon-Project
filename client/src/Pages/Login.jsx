@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Mail, Lock, ArrowRight, GraduationCap, Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 function Login() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -20,13 +22,17 @@ function Login() {
         { email, password },
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials: true
         }
       );
-
-      // Success: Save the token and redirect
-      const { token } = response.data;
-      localStorage.setItem("authToken", token); // Save token for future authenticated requests
-      window.location.href = "/dashboard"; // Redirect to the dashboard
+      Swal.fire({
+        title: response.data.message,
+        icon: "success"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/")
+        }
+      });
     } catch (error) {
       // Error handling
       const message = error.response?.data?.message || "Login failed. Please try again.";
@@ -48,7 +54,7 @@ function Login() {
         </div>
 
         {/* Right Side - Login Form */}
-        <div className="w-full lg:w-1/2 p-8 md:py-2 md:px-5">
+        <div className="w-full lg:w-1/2 md:p-7">
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
               <GraduationCap className="h-8 w-8 text-indigo-600" />
@@ -72,7 +78,7 @@ function Login() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                     placeholder="Enter your email"
                     required
                   />
@@ -91,7 +97,7 @@ function Login() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 outline-none rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                     placeholder="Enter your password"
                     required
                   />
@@ -111,27 +117,12 @@ function Login() {
               <p className="text-sm text-red-500 text-center">{errorMessage}</p>
             )}
 
-            {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                  Remember me
-                </label>
-              </div>
-              <button type="button" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                Forgot password?
-              </button>
-            </div>
+
 
             {/* Sign In Button */}
             <button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 font-medium"
+              className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 font-medium active:scale-90"
             >
               Sign in
               <ArrowRight className="h-5 w-5" />
