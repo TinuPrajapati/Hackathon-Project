@@ -1,38 +1,77 @@
-import React, { useState } from 'react';
-import { Mail, Lock, ArrowRight, GraduationCap, User, Phone, MapPin, Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import { Mail, Lock, ArrowRight, GraduationCap, User, Phone, MapPin, Eye, EyeOff } from "lucide-react";
+import axios from "axios";
 
 function SignUp() {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-    location: '',
-    gender: ''
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    location: "",
+    gender: "",
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    // Password confirmation check
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/register`,
+        {
+          username: formData.username,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          location: formData.location,
+          gender: formData.gender,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setSuccessMessage("Account created successfully! Redirecting to login...");
+      setTimeout(() => {
+        window.location.href = "/login"; // Redirect to login page
+      }, 3000);
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Registration failed. Please try again.";
+      setErrorMessage(message);
+    }
   };
 
   return (
     <div className="h-[100vh] bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
-      <div className=" w-[90%] h-[90%] flex rounded-2xl shadow-2xl bg-white overflow-hidden">
+      <div className="w-[90%] h-[90%] flex rounded-2xl shadow-2xl bg-white overflow-hidden">
         {/* Left Side - Image */}
         <div className="hidden lg:block lg:w-[40%] relative">
-          <img 
+          <img
             src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80"
             alt="Students learning"
             className="object-cover w-full h-full"
@@ -147,9 +186,9 @@ function SignUp() {
                   required
                 >
                   <option value="">Select gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -166,8 +205,8 @@ function SignUp() {
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors"
-                    placeholder="Create a password"
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    placeholder="Enter your password"
                     required
                   />
                   <button
@@ -179,8 +218,40 @@ function SignUp() {
                   </button>
                 </div>
               </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    placeholder="Confirm your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-5 w-5 text-gray-400" /> : <Eye className="h-5 w-5 text-gray-400" />}
+                  </button>
+                </div>
+              </div>
             </div>
 
+            {/* Error & Success Messages */}
+            {errorMessage && <p className="text-sm text-red-500 text-center">{errorMessage}</p>}
+            {successMessage && <p className="text-sm text-green-500 text-center">{successMessage}</p>}
+
+            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 font-medium"
@@ -190,10 +261,10 @@ function SignUp() {
             </button>
 
             <p className="text-center text-sm text-gray-600">
-              Already have an account?{' '}
-              <button type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Already have an account?{" "}
+              <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
                 Sign in
-              </button>
+              </a>
             </p>
           </form>
         </div>
