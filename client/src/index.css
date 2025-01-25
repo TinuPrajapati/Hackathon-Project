@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-#custom-gradient{
+.custom-gradient{
     background: linear-gradient(to bottom right, #d24df7, #7000f0);
 }
 
