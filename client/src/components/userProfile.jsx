@@ -7,7 +7,7 @@ function userProfile() {
       <div className="container mx-auto px-4 py-2" >
         <div className="max-w-full mx-auto backdrop-blur-lg rounded-2xl p-8 text-white" >
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 pr-4 rounded-xl relative">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 pr-4 rounded-xl relative">
             <img
               src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200&h=200"
               alt="Profile"
@@ -16,9 +16,9 @@ function userProfile() {
             <img
               src="https://blog.pincel.app/wp-content/uploads/2023/09/0-add-hidden-text-or-symbol-into-AI-photo.jpg"
               alt="Profile"
-              className="w-2/3 h-52 rounded-xl"
+              className="w-[70%] h-52 rounded-xl"
             />
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left border-2 bg-white border-purple-500 h-52 flex flex-col justify-center p-8 rounded-xl">
               <h1 className="text-3xl font-bold mb-2 text-gray-950">John Developer</h1>
               <p className="text-xl text-gray-700 mb-4">Senior Software Engineer</p>
               <p className="text-gray-600 mb-4">Squad: Innovation Team Alpha</p>
@@ -30,7 +30,7 @@ function userProfile() {
               </div>
             </div>
           </div>
-          <div className='w-full text-gray-950 text-right'>
+          <div className='w-full text-gray-950'>
             <h1 className='text-3xl mb-5'>About</h1>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolores dolore sequi sapiente sit, fugiat corporis vel voluptatum excepturi tempora omnis, explicabo cum saepe, fugit quo distinctio asperiores maiores nobis?</p>
           </div>
@@ -74,7 +74,7 @@ function userProfile() {
                   image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=400',
                 },
               ].map((project) => (
-                <div key={project.title} className="bg-white/5 rounded-xl overflow-hidden hover:bg-white/10 transition-colors border border-purple-500 border-4" style={{ background: 'linear-gradient(to bottom right, #d24df7, #7000f0)' }}>
+                <div key={project.title} className="bg-white/5 rounded-xl overflow-hidden hover:bg-white/10 transition-colors border-purple-500 border-4" style={{ background: 'linear-gradient(to bottom right, #d24df7, #7000f0)' }}>
                   <img
                     src={project.image}
                     alt={project.title}
