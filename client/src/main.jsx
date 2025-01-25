@@ -3,13 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import UserProfile from './components/UserProfile.jsx'
+import UserProfile from './Pages/UserProfile.jsx'
 import HomePage from './Pages/HomePage.jsx'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
 import SquadProfile from './components/SquadProfile.jsx'
 import Login from './Pages/Login.jsx'
 import SignUp from './Pages/SignUp.jsx'
+import Setting from "./Pages/Setting.jsx"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="squads_profile" element={<SquadProfile />} />
       <Route path="login" element={<Login/>} />
       <Route path="signup" element={<SignUp/>} />
+      <Route path="setting" element={<Setting/>}/>
     </Route>
   )
 )

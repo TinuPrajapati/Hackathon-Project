@@ -59,7 +59,7 @@ const Header = () => {
                         {open && (
                             <div className="absolute right-0 z-10 w-40 rounded-md bg-white p-2 border-2 border-purple-400 ">
                                 <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-200 duration-200 rounded-md text-[1rem] font-semibold">Your Profile</Link>
-                                <Link to="/settings" className="block px-4 py-2 text-gray-700 hover:bg-gray-200 duration-200 rounded-md text-[1rem] font-semibold">Settings</Link>
+                                <Link to="/setting" className="block px-4 py-2 text-gray-700 hover:bg-gray-200 duration-200 rounded-md text-[1rem] font-semibold">Settings</Link>
                                 <button className="block px-4 py-2 text-gray-700 hover:bg-gray-200 duration-200 rounded-md text-[1rem] font-semibold">Sign out</button>
                             </div>
                         )}
