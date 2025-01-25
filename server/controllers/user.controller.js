@@ -6,7 +6,7 @@ import { cloudinary } from "../lib/cloudinary.js";
 // Register User
 export const registerUser = async (req, res) => {
   try {
-    const { name, userId, email, password, number } = req.body;
+    const { name, userId, email, password, number,location,gender } = req.body;
 
     // Check if email, userId, or number already exists
     const existingUser = await User.findOne({ 
@@ -37,6 +37,8 @@ export const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       number,
+      location,
+      gender
     });
 
     await newUser.save();
@@ -110,7 +112,7 @@ export const logoutUser = (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { userId: id } = req.user;
-    const { name, userId, email, number, skills, interestedIn,links } = req.body;
+    const { name, userId, email, number, skills, interestedIn,links,location,gender } = req.body;
     let path = "";
     let filename = "";
     if(req.file){
@@ -137,6 +139,8 @@ export const updateUser = async (req, res) => {
         links,
         skills,
         interestedIn,
+        location,
+        gender,
         profileImage: path ? path : "",  // Set empty string if no new image
         filename: filename ? filename : "" // Set empty string if no new image
       },

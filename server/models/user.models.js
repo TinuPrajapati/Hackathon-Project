@@ -27,6 +27,16 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter your number"],
       maxlength: 10,
     },
+    location: {
+      type: String,
+      required: [true, "Please enter your location"],
+      
+    },
+    gender: {
+      type: String,
+      required: [true, "Please enter your gender"],
+      eunm:["Male","Female","Other"]
+    },
     profileImage: {
       type: String,
       default: "",
@@ -54,6 +64,12 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Project",
+      },
+    ],
+    feedbacks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Report",
       },
     ],
   },
