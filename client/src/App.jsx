@@ -3,6 +3,7 @@ import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import Features from './components/Features';
 import RecommendedTeammates from './components/RecommendedTeammates';
+import UserProfile from './components/userProfile'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState(''); 
@@ -52,8 +53,11 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100">
       <Header />
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <UserProfile/>
         <Features />
+        
         <RecommendedTeammates filteredTeammates={allTeammates} />
       </main>
     </div>
