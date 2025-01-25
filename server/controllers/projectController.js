@@ -1,19 +1,26 @@
-import Project from "../models/project.models";
+import Project from "../models/project.models.js";
+import User from "../models/user.models.js";
 
 // Create a new project
 export const createProject = async (req, res) => {
-  const { title, description, projectImage, filename, link, mode, user } = req.body;
-
   try {
+    const { title, description, link, mode } = req.body;
+    const user = req.user.userId;
+    let path = req.file ? req.file.path : "";
+    let filename = req.file ? req.file.filename : "";
+
+    const existUser = await User.findById(user);
     const project = await Project.create({
       title,
       description,
-      projectImage,
+      projectImage: path,
       filename,
       link,
       mode,
       user,
     });
+    existUser.projects.push(project._id);
+    await existUser.save();
     res.status(201).json(project);
   } catch (error) {
     res.status(400).json({ message: error.message });
