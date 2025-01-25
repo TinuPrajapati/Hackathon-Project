@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import router_user from './routes/userRoutes.js';
 import router_reports from './routes/reportsRoutes.js';
 import router_clan from './routes/clanRoutes.js';
+import router_project from './routes/projectRoutes.js';
 
 const app = express();
 app.use(express.json());
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 app.use("/api/user",router_user)
 app.use("/api/reports",router_reports)
 app.use("/api/clan",router_clan)
+app.use("/api/projects",router_project)
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);

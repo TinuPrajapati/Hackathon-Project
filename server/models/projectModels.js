@@ -27,9 +27,9 @@ const projectSchema = new mongoose.Schema(
     ],
     mode: {
       type: String,
-      required: [true, "Please enter your project mode"],
-      default: "Private",
       enum: ["Private", "Public"],
+      default: "Private",
+      required: [true, "Please enter your project mode"],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
