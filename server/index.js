@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+
 import express from 'express';
 import main from './lib/dbConfig.js';
 import cors from 'cors';
@@ -10,16 +11,23 @@ import router_clan from './routes/clanRoutes.js';
 import router_project from './routes/projectRoutes.js';
 
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
+
+// Database Connection
 main();
 
-// cors
-app.use(cors({
+// CORS Configuration
+app.use(
+  cors({
     origin: process.env.CLIENT_URL,
-    credentials: true
-}));
+    credentials: true,
+  })
+);
 
+// Test Route
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
