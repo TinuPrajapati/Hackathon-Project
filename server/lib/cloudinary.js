@@ -37,10 +37,19 @@ const clan_Image = new CloudinaryStorage({
     allowed_formats: ["jpg", "jpeg", "png"], // Allowed file types
   },
 });
+// Configure CloudinaryStorage for project images
+const msg_Image = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "Message-Image", // Folder for project images
+    allowed_formats: ["jpg", "jpeg", "png"], // Allowed file types
+  },
+});
 
 // Multer upload instances for both storages
 const uploadStudentImage = multer({ storage: student_Image });
 const uploadProjectImage = multer({ storage: project_Image });
 const uploadClanImage = multer({ storage: clan_Image });
+const uploadMsgImage = multer({ storage: msg_Image });
 
-export { uploadStudentImage, uploadProjectImage,cloudinary,uploadClanImage };
+export { uploadStudentImage, uploadProjectImage,cloudinary,uploadClanImage,uploadMsgImage };
