@@ -8,7 +8,7 @@
     width: 0;
 }
 
-.container {
+/* .container {
   position: relative;
   width: 100%;
   background-color: #fff;
@@ -58,8 +58,9 @@ form.sign-in-form {
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 2.2rem;
   color: #444;
+  margin-bottom: 10px;
 }
 
 .input-field {
@@ -69,25 +70,25 @@ form.sign-in-form {
   margin: 10px 0;
   height: 55px;
   border-radius: 55px;
-  display: flex; /* Changed from grid to flex */
-  align-items: center; /* Align items vertically */
-  padding: 0 1rem; /* Adjust padding */
+  display: flex;
+  align-items: center;
+  padding: 0 1rem; 
 }
 
 .input-field i, 
 .input-field svg {
-  width: 15%; /* Keep the icon container width */
-  text-align: center; /* Center the icon horizontally */
+  width: 15%;
+  text-align: center;
   font-size: 1.2rem;
   color: #333;
 }
 
 .input-field input {
-  width: 85%; /* Fill remaining width */
+  width: 85%; 
   border: none;
   outline: none;
   background: none;
-  padding-left: 10px; /* Add some padding */
+  padding-left: 10px; 
   font-size: 1rem;
   color: #333;
 }
@@ -128,6 +129,7 @@ form.sign-in-form {
 }
 
 .btn {
+  width: 150px;
   background-color: #ff6f61;
   border: none;
   outline: none;
@@ -226,7 +228,6 @@ form.sign-in-form {
   transform: translateX(800px);
 }
 
-/* ANIMATION */
 
 .container.sign-up-mode:before {
   transform: translate(100%, -50%);
@@ -392,4 +393,4 @@ form.sign-in-form {
     bottom: 28%;
     left: 50%;
   }
-}
+} */
