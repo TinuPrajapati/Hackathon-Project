@@ -1,17 +1,19 @@
-import { Search } from 'lucide-react'
-import React from 'react'
+import React from 'react';
+import { Search } from 'lucide-react';
 
-const SearchBar = ({text}) => {
-    return (
-        <div className="relative mb-4 flex items-center">
-            <Search className="absolute left-3 h-5 w-5 text-gray-400" />
-            <input
-                type="text"
-                placeholder={text}
-                className="w-full pl-10 pr-4 py-3 bg-white rounded-lg outline-none border-2 border-gray-300 focus:border-none focus:ring-2 focus:ring-purple-500"
-            />
-        </div>
-    )
+export function SearchBar({ value, onChange }) {
+  return (
+    <div className="relative max-w-2xl mx-auto mb-10">
+      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="Search by name, skills, or location..."
+        className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-500 focus:border-[#7000f0] focus:ring-2 focus:ring-[#7000f0] focus:ring-opacity-20 outline-none transition-all"
+      />
+    </div>
+  );
 }
 
 export default SearchBar
