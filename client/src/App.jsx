@@ -3,17 +3,12 @@ import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import Features from './components/Features';
 import RecommendedTeammates from './components/RecommendedTeammates';
-// import teammatesData from './data/teammatesData';
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(''); 
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [minSkillLevel, setMinSkillLevel] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
-
-  // const allSkills = useMemo(() => {
-  //   return [...new Set(teammatesData.flatMap(teammate => teammate.skills.map(skill => skill.name)))];
-  // }, []);
 
   const allTeammates = [
     {
