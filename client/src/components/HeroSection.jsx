@@ -1,8 +1,10 @@
 import React from 'react';
 import { Search, Filter, Sparkles } from 'lucide-react';
 import SearchBar from './SearchBar';
+import Button from './Button';
 
 const HeroSection = () => {
+  const [skills, setSkills] = React.useState(false);
   const [showFilters, setShowFilters] = React.useState(false);
   const allSkills = ['React', 'Node.js', 'Python', 'Figma', 'User Research', 'Prototyping', 'Machine Learning', 'Data Analysis'];
   return (
@@ -33,15 +35,8 @@ const HeroSection = () => {
             <div className="mb-4">
               <h4 className="text-sm font-medium text-gray-700 mb-2">Required Skills</h4>
               <div className="flex flex-wrap gap-2">
-                {allSkills.map(skill => (
-                  <button
-                    key={skill}
-                    // onClick={() => toggleSkill(skill)}
-                    className={`px-3 py-1 rounded-full text-sm 
-                    }`}
-                  >
-                    {skill}
-                  </button>
+                {allSkills.map((skill,index) => (
+                  <Button skill={skill} key={index}/>
                 ))}
               </div>
             </div>
