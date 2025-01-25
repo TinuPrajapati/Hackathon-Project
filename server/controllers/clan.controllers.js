@@ -64,32 +64,31 @@ export const addClan = async (req, res) => {
 
 export const updateClan = async (req, res) => {
     try {
-        const { name, about, members } = req.body;
-        const path = req.file ? req.file.path : "";
+        const { id,name, about, members } = req.body;
+        const icon = req.file ? req.file.path : "";
         const filename = req.file ? req.file.filename : "";
 
-        const clan = await Clan.findOne({ name });
+        if (members > 20) {
+            return res.status(400).json({ message: "Members should not be more than 20" });
+        }
+
+        const clan = await Clan.findById(id);
         if (!clan) {
             return res.status(404).json({ message: "Group not found" });
         }
 
         // Delete old image from Cloudinary if a new one is provided
-        if (path && clan.filename) {
+        if (clan.filename) {
             await cloudinary.uploader.destroy(clan.filename);
         }
 
-        const updateData = {};
-        if (about) updateData.about = about;
-        if (members) {
-            if (members > 20) {
-                return res.status(400).json({ message: "Members should not be more than 20" });
-            }
-            updateData.members = members;
-        }
-        if (path) updateData.icon = path;
-        if (filename) updateData.filename = filename;
-
-        const updatedClan = await Clan.findOneAndUpdate({ name }, updateData, { new: true });
+        const updatedClan = await Clan.findOneAndUpdate({ name }, {
+            name,
+            about,
+            members,
+            icon,
+            filename,
+        }, { new: true });
         if (!updatedClan) {
             return res.status(400).json({ message: "Unable to update group" });
         }
