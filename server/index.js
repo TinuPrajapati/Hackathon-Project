@@ -6,6 +6,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import router_user from './routes/user.routes.js';
 import router_reports from './routes/reports.routes.js';
+import projectRoutes from "./routes/projectRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/user",router_user)
 app.use("/api/reports",router_reports)
+app.use("/api/projects", projectRoutes)
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
