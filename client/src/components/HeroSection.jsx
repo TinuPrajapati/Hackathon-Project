@@ -15,7 +15,7 @@ const HeroSection = () => {
       </div>
       <h2 className="text-5xl font-bold text-gray-900 mb-4 leading-tight">
         Unlock Your Team's 
-        <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent"> Full Potential</span>
+        <span className="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent"> Full Potential</span>
       </h2>
       <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
         Our AI analyzes skills, experience, and compatibility to create your perfect dream team.

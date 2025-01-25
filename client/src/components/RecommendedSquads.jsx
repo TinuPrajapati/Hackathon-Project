@@ -95,7 +95,7 @@ const RecommendedSquads = () => {
                                         <Users className="w-5 h-5 mr-2" />
                                         <span>{group.members} members</span>
                                     </div>
-                                    <Link to="/squads_profile" className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full text-white text-sm font-medium transition-colors duration-300">
+                                    <Link to="/squads_profile" className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full text-white text-sm font-medium transition-colors duration-300" style={{ background: 'linear-gradient(to bottom right, #d24df7, #7000f0)'}}>
                                         Join Group
                                     </Link>
                                 </div>
