@@ -37,7 +37,9 @@ export const addReport = async (req, res) => {
             return res.status(404).json({ message: "This User not found! Please check the username" });
         }
         const newReport = new Report({ username, feedback, byUser });
+        user.feedbacks.push(newReport._id);
         await newReport.save();
+        await user.save();
         res.status(201).json(newReport);
     } catch (error) {
         console.error(error.message);
