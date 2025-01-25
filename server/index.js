@@ -9,8 +9,8 @@ import router_user from './routes/userRoutes.js';
 import router_reports from './routes/reportsRoutes.js';
 import router_clan from './routes/clanRoutes.js';
 import router_project from './routes/projectRoutes.js';
-
-const app = express();
+import { app,server } from './lib/socket.js';
+import router_msg from './routes/messageRoutes.js';
 
 // Middleware
 app.use(express.json());
@@ -36,7 +36,8 @@ app.use("/api/user",router_user)
 app.use("/api/reports",router_reports)
 app.use("/api/clan",router_clan)
 app.use("/api/projects",router_project)
+app.use("/api/messages",router_msg)
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
