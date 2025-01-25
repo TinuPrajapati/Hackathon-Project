@@ -1,23 +1,45 @@
-import React, { useState } from 'react';
-import { Mail, Lock, ArrowRight, GraduationCap,Eye, EyeOff } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Mail, Lock, ArrowRight, GraduationCap, Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  // Submit handler
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    setErrorMessage(""); // Reset error message
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/login`,
+        { email, password },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      // Success: Save the token and redirect
+      const { token } = response.data;
+      localStorage.setItem("authToken", token); // Save token for future authenticated requests
+      window.location.href = "/dashboard"; // Redirect to the dashboard
+    } catch (error) {
+      // Error handling
+      const message = error.response?.data?.message || "Login failed. Please try again.";
+      setErrorMessage(message);
+    }
   };
 
   return (
     <div className="h-[100vh] bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
-      <div className=" w-[90%] h-[95%] flex rounded-2xl shadow-2xl bg-white overflow-hidden">
+      <div className="w-[90%] h-[95%] flex rounded-2xl shadow-2xl bg-white overflow-hidden">
         {/* Left Side - Image */}
         <div className="hidden lg:block lg:w-1/2 relative">
-          <img 
+          <img
             src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80"
             alt="Students collaborating"
             className="object-cover w-full h-full"
@@ -38,6 +60,7 @@ function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
+              {/* Email Field */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email address
@@ -56,6 +79,7 @@ function Login() {
                 </div>
               </div>
 
+              {/* Password Field */}
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                   Password
@@ -64,12 +88,11 @@ function Login() {
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <input
                     id="password"
-                    name="password"
                     type={showPassword ? "text" : "password"}
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors"
-                    placeholder="Create a password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    placeholder="Enter your password"
                     required
                   />
                   <button
@@ -83,6 +106,12 @@ function Login() {
               </div>
             </div>
 
+            {/* Error Message */}
+            {errorMessage && (
+              <p className="text-sm text-red-500 text-center">{errorMessage}</p>
+            )}
+
+            {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
@@ -99,6 +128,7 @@ function Login() {
               </button>
             </div>
 
+            {/* Sign In Button */}
             <button
               type="submit"
               className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 font-medium"
@@ -107,9 +137,10 @@ function Login() {
               <ArrowRight className="h-5 w-5" />
             </button>
 
+            {/* Sign Up Link */}
             <p className="text-center text-sm text-gray-600">
-              Don't have an account?{' '}
-              <Link className="font-medium text-indigo-600 hover:text-indigo-500">
+              Don't have an account?{" "}
+              <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
                 Sign up for free
               </Link>
             </p>
