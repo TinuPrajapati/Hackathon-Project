@@ -8,6 +8,7 @@ import HomePage from './Pages/HomePage.jsx'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
 import SquadProfile from './components/SquadProfile.jsx'
+import Login from './Pages/Login_SignUp.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
       <Route path="" element={<HomePage />} />
       <Route path="profile" element={<UserProfile />} />
       <Route path="squads_profile" element={<SquadProfile />} />
+      <Route path="login" element={<Login/>} />
     </Route>
   )
 )

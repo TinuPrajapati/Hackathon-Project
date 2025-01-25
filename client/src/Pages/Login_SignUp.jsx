@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import logImg from '../assets/log.svg';
 import registerImg from '../assets/register.svg';
+import Input from '../components/Input';
+import { CircleUser, KeyRound, Locate, Mail, Phone } from 'lucide-react';
 
 const AuthForm = () => {
   const [isSignup, setIsSignup] = useState(false);
@@ -41,89 +43,61 @@ const AuthForm = () => {
   };
 
   return (
-    <div className={`relative w-full min-h-screen bg-gray-100 flex items-center justify-center overflow-hidden transition-all ${isSignup ? 'bg-gradient-to-r from-blue-900 to-red-500' : ''}`}>
-      <div className="relative flex w-full max-w-5xl shadow-lg bg-white rounded-lg">
-        {/* Form Section */}
-        <div className={`flex-1 p-10 transition-all duration-700 ${isSignup ? 'order-2' : ''}`}>
-          <form
-            className="flex flex-col items-center space-y-6"
-            onSubmit={handleSubmit}
-          >
-            <h2 className="text-3xl font-bold text-gray-800">
-              {isSignup ? 'Sign Up' : 'Sign In'}
-            </h2>
+    <div className={`container ${isSignup ? 'sign-up-mode' : ''}`} style={{fontFamily:`cursive`}}>
+      <div className="forms-container">
+        <div className="signin-signup">
+          <form className="sign-in-form" onSubmit={handleSubmit}>
+            <h2 className="title">Sign in</h2>
+            <Input placeholder={"Enter your Email"} type="email" id="email" text="Email" icon={<Mail className='w-5 h-5' />} />
+            <Input placeholder={"Enter your Password"} type="password" id="password" text="Password" icon={<KeyRound className='w-5 h-5' />} />
+            <button type="submit" className="w-[20vw] h-12 rounded-md text-white bg-purple-400 text-lg font-semibold mt-4 active:scale-90">Login</button>
+          </form>
 
-            {isSignup && (
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  required={isSignup}
-                />
+          <form className="sign-up-form" onSubmit={handleSubmit}>
+            <h2 className="title">Sign up</h2>
+            <Input placeholder={"Enter your Name"} type="text" id="text" text="Name" icon={<CircleUser className='w-5 h-5' />} />
+            <Input placeholder={"Enter your Email"} type="email" id="email" text="Email" icon={<Mail className='w-5 h-5' />} />
+            <Input placeholder={"Enter your Number"} type="number" id="number" text="Number" icon={<Phone className='w-5 h-5' />} />
+            <Input placeholder={"Enter your Password"} type="password" id="password" text="Password" icon={<KeyRound className='w-5 h-5' />} />
+            <Input placeholder={"Enter your Loaction [city,State]"} type="text" id="loaction" text="Loaction" icon={<Locate className='w-5 h-5' />} />
+            <div className='flex w-full h-10 items-center px-4 gap-4 bg-gray-200 rounded-md mb-2 mt-2'>
+              <label>Gender:</label>
+              <div className='flex w-[60%] items-center gap-4'>
+                <div>
+                  <input type="radio" id="male" name="gender" value="male" />
+                  <label htmlFor="male">Male</label>
+                </div>
+                <div>
+                  <input type="radio" id="female" name="gender" value="female" />
+                  <label htmlFor="female">Female</label>
+                </div>
               </div>
-            )}
-
-            <div className="relative w-full">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
             </div>
-
-            <div className="relative w-full">
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none"
-            >
-              {isSignup ? 'Sign Up' : 'Sign In'}
-            </button>
+            <button type="submit" className="w-[20vw] h-12 rounded-md text-white bg-purple-400 text-lg font-semibold active:scale-90">Sign Up</button>
           </form>
         </div>
+      </div>
 
-        {/* Panel Section */}
-        <div
-          className={`hidden md:flex flex-1 flex-col items-center justify-center space-y-6 transition-all duration-700 ${
-            isSignup ? 'order-1' : ''
-          }`}
-        >
-          <img
-            src={isSignup ? registerImg : logImg}
-            alt="Illustration"
-            className="w-2/3"
-          />
-          <div className="text-center">
-            <h3 className="text-xl font-bold text-gray-700">
-              {isSignup ? 'One of us?' : 'New here?'}
-            </h3>
-            <p className="text-gray-500">
-              {isSignup
-                ? 'Sign in to access your account.'
-                : 'Sign up to explore more features.'}
-            </p>
+      <div className="panels-container">
+        <div className="panel left-panel">
+          <div className="content">
+            <h3>New here?</h3>
+            <p>Welcome to our platform! Sign up to explore more.</p>
+            <button className="btn transparent" onClick={toggleMode}>
+              Sign up
+            </button>
           </div>
-          <button
-            onClick={toggleMode}
-            className="px-6 py-3 text-sm font-semibold text-blue-500 bg-white border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white"
-          >
-            {isSignup ? 'Sign In' : 'Sign Up'}
-          </button>
+          <img src={logImg} className="image" alt="Sign Up" />
+        </div>
+        <div className="panel right-panel">
+          <div className="content">
+            <h3>One of us?</h3>
+            <p>If you already have an account, just sign in.</p>
+            <button className="btn transparent" onClick={toggleMode}>
+              Sign in
+            </button>
+          </div>
+          <img src={registerImg} className="image" alt="Sign In" />
         </div>
       </div>
     </div>
