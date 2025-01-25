@@ -6,22 +6,24 @@ import {
   updateProject,
   deleteProject,
 } from "../controllers/projectController.js";
+import { protectRoute } from "../middleware/auth.middleware.js";
+import { uploadProjectImage } from "../lib/cloudinary.js";
 
-const router = express.Router();
+const router_project = express.Router();
 
 // Create a project
-router.post("/", createProject);
+router_project.post("/add",protectRoute,uploadProjectImage.single("image"), createProject);
 
 // Get all projects
-router.get("/", getAllProjects);
+router_project.get("/",protectRoute, getAllProjects);
 
 // Get a single project by ID
-router.get("/:id", getProjectById);
+router_project.get("/:id",protectRoute, getProjectById);
 
 // Update a project
-router.put("/:id", updateProject);
+router_project.put("/:id",protectRoute,uploadProjectImage.single("image"), updateProject);
 
 // Delete a project
-router.delete("/:id", deleteProject);
+router_project.delete("/:id",protectRoute, deleteProject);
 
-export default router;
+export default router_project;
