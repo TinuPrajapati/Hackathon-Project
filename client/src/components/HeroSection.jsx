@@ -1,14 +1,10 @@
 import React from 'react';
 import { Search, Filter, Sparkles } from 'lucide-react';
+import SearchBar from './SearchBar';
 
-const HeroSection = ({ 
-  searchQuery, setSearchQuery, showFilters, setShowFilters, 
-  allSkills, selectedSkills, setSelectedSkills, minSkillLevel, setMinSkillLevel 
-}) => {
-  const toggleSkill = (skill) => {
-    setSelectedSkills(prev => prev.includes(skill) ? prev.filter(s => s !== skill) : [...prev, skill]);
-  };
-
+const HeroSection = () => {
+  const [showFilters, setShowFilters] = React.useState(false);
+  const allSkills = ['React', 'Node.js', 'Python', 'Figma', 'User Research', 'Prototyping', 'Machine Learning', 'Data Analysis'];
   return (
     <div className="text-center mb-16">
       <div className="inline-flex items-center justify-center space-x-2 mb-4">
@@ -23,19 +19,10 @@ const HeroSection = ({
         Our AI analyzes skills, experience, and compatibility to create your perfect dream team.
       </p>
       <div className="max-w-2xl mx-auto">
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search for skills, roles, or team members..."
-            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+        <SearchBar/>
         <button
-          onClick={() => setShowFilters(!showFilters)}
           className="flex items-center mx-auto space-x-2 text-indigo-600 hover:text-indigo-700"
+          onClick={() => setShowFilters(!showFilters)}
         >
           <Filter className="h-4 w-4" />
           <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
@@ -49,9 +36,8 @@ const HeroSection = ({
                 {allSkills.map(skill => (
                   <button
                     key={skill}
-                    onClick={() => toggleSkill(skill)}
-                    className={`px-3 py-1 rounded-full text-sm ${
-                      selectedSkills.includes(skill) ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'
+                    // onClick={() => toggleSkill(skill)}
+                    className={`px-3 py-1 rounded-full text-sm 
                     }`}
                   >
                     {skill}
@@ -65,12 +51,12 @@ const HeroSection = ({
                 type="range"
                 min="0"
                 max="100"
-                value={minSkillLevel}
-                onChange={(e) => setMinSkillLevel(Number(e.target.value))}
+                // value={minSkillLevel}
+                // onChange={(e) => setMinSkillLevel(Number(e.target.value))}
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               />
               <div className="text-sm text-gray-600 text-center mt-1">
-                {minSkillLevel}%
+                minSkillLevel%
               </div>
             </div>
           </div>
