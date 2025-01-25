@@ -1,5 +1,5 @@
-import Report from "../models/report.models.js";
-import User from "../models/user.models.js";
+import Report from "../models/reportModels.js";
+import User from "../models/userModels.js";
 
 export const getReports = async (req, res) => {
     try {

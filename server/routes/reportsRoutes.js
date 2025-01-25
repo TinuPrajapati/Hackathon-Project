@@ -1,6 +1,6 @@
 import express from 'express';
-import { protectRoute } from '../middleware/auth.middleware.js';
-import { addReport, allReports, getReports } from '../controllers/reports.controllers.js';
+import { protectRoute } from '../middleware/authMiddleware.js';
+import { addReport, allReports, getReports } from '../controllers/reportsControllers.js';
 const router_reports = express.Router();
 
 // get request

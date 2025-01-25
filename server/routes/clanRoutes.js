@@ -1,7 +1,7 @@
 import express from 'express';
-import { protectRoute } from '../middleware/auth.middleware.js';
+import { protectRoute } from '../middleware/authMiddleware.js';
 import { uploadClanImage } from '../lib/cloudinary.js';
-import { addClan, deleteClan, getAllClans, getClan, updateClan } from '../controllers/clan.controllers.js';
+import { addClan, deleteClan, getAllClans, getClan, updateClan } from '../controllers/clanControllers.js';
 const router_clan = express.Router();
 
 // get request

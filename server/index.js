@@ -1,12 +1,12 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
-import main from './lib/dbconfig.js';
+import main from './lib/dbConfig.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import router_user from './routes/user.routes.js';
-import router_reports from './routes/reports.routes.js';
-import router_clan from './routes/clan.routes.js';
+import router_user from './routes/userRoutes.js';
+import router_reports from './routes/reportsRoutes.js';
+import router_clan from './routes/clanRoutes.js';
 
 const app = express();
 app.use(express.json());

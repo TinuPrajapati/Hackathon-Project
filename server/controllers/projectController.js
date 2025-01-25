@@ -1,5 +1,5 @@
-import Project from "../models/project.models.js";
-import User from "../models/user.models.js";
+import Project from "../models/projectModels.js";
+import User from "../models/userModels.js";
 
 // Create a new project
 export const createProject = async (req, res) => {

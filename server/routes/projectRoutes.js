@@ -6,7 +6,7 @@ import {
   updateProject,
   deleteProject,
 } from "../controllers/projectController.js";
-import { protectRoute } from "../middleware/auth.middleware.js";
+import { protectRoute } from "../middleware/authMiddleware.js";
 import { uploadProjectImage } from "../lib/cloudinary.js";
 
 const router_project = express.Router();

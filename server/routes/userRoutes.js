@@ -1,6 +1,6 @@
 import express from 'express';
-import { getUser, loginUser, logoutUser, registerUser, updateUser } from '../controllers/user.controller.js';
-import { protectRoute } from '../middleware/auth.middleware.js';
+import { getUser, loginUser, logoutUser, registerUser, updateUser } from '../controllers/userController.js';
+import { protectRoute } from '../middleware/authMiddleware.js';
 import {uploadStudentImage} from "../lib/cloudinary.js"
 const router_user = express.Router();
 

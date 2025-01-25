@@ -1,4 +1,4 @@
-import Clan from "../models/clan.models.js";
+import Clan from "../models/clanModels.js";
 import { cloudinary } from "../lib/cloudinary.js";
 
 export const getAllClans = async (req, res) => {
