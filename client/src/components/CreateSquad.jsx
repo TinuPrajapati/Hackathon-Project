@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect,useRef } from 'react'
 import { allSkills } from '../Features/skillsList'
+import MCQTestGenerator from './MCQTestGenerator'
+import { Globe, Lock, Upload, X } from "lucide-react";
 
 function CreateSquad() {
   const [squadName, setSquadName] = useState('')
@@ -13,6 +15,9 @@ function CreateSquad() {
   const [newSkill, setNewSkill] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
+    const [preview, setPreview] = useState("");
+    const fileInputRef = useRef(null);
+    
 
   useEffect(() => {
     if (newSkill.trim()) {
@@ -47,22 +52,51 @@ function CreateSquad() {
     setSelectedSkills(selectedSkills.filter(skill => skill !== skillToRemove))
   }
 
-  const handleTopicChange = (index, value) => {
-    const newTopics = [...topics]
-    newTopics[index] = value
-    setTopics(newTopics)
-  }
 
   const handleMemberLimitChange = (value) => {
     const newValue = Math.min(Math.max(value, 4), 20)
     setMemberLimit(newValue)
   }
 
-  const handleGenerateTest = () => {
-    const test = `Generated test for ${squadName}:\n\nTopics:\n${topics.filter(t => t).map((t, i) => `${i + 1}. ${t}`).join('\n')}\n\nDifficulty: ${difficulty}\n\nRequired Skills: ${selectedSkills.join(', ')}\n\nMember Limit: ${memberLimit}`
-    setGeneratedTest(test)
-  }
 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData((prev) => ({ ...prev, image: file }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setFormData((prev) => ({ ...prev, image: "" }));
+    setPreview("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      setFormData((prev) => ({ ...prev, image: file }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div className="min-h-screen p-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
@@ -118,18 +152,55 @@ function CreateSquad() {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Squad Image URL</label>
-            <input
-              type="text"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
-            {imageUrl && (
-              <div className="mt-4 border rounded-lg overflow-hidden h-48">
-                <img src={imageUrl} alt="Squad" className="w-full h-full object-cover" />
-              </div>
-            )}
+            {/* Project Image */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Project Image</label>
+            <div
+              className="relative border-2 border-dashed border-gray-500 rounded-lg p-4 hover:border-blue-500 transition-colors"
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
+              {preview ? (
+                <div className="relative">
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="w-full h-48 object-cover rounded-md border border-gray-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleRemoveImage}
+                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                  <div className="mt-2">
+                    <label
+                      htmlFor="image-upload"
+                      className="cursor-pointer text-sm text-blue-600 hover:text-blue-500"
+                    >
+                      <span>Upload a file</span>
+                      <input
+                        id="image-upload"
+                        name="image"
+                        type="file"
+                        ref={fileInputRef}
+                        className="sr-only outline-none"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                    </label>
+                    <p className="text-xs text-gray-500 mt-1">or drag and drop</p>
+                    <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
           </div>
         </div>
 
@@ -177,7 +248,10 @@ function CreateSquad() {
           </div>
         </div>
 
-        <div className="mt-8">
+<div>
+<MCQTestGenerator/>
+</div>
+        {/* <div className="mt-8">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Generate Test</h2>
           
           <div className="space-y-4">
@@ -219,7 +293,7 @@ function CreateSquad() {
             <h2 className="text-xl font-semibold text-gray-700 mb-4">Generated Test</h2>
             <pre className="whitespace-pre-wrap">{generatedTest}</pre>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   )
