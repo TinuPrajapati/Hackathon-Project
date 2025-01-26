@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Github } from 'lucide-react';
+import { Github, Linkedin, Twitter, Instagram, ContactRound } from 'lucide-react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import NewAddProject from './NewAddProject'; // Import the NewAddProject component
 
 function UserProfile() {
+  const loaction = useLocation();
   const [user, setUser] = useState({});
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State to manage dialog visibility
 
@@ -52,17 +53,11 @@ function UserProfile() {
               <h1 className="text-3xl font-bold mb-2 text-gray-950">{user.name || "Guest"}</h1>
               <p className="text-lg text-gray-700 mb-2">User Id: {user.userId || "N/A"}</p>
               <p className="text-gray-600 mb-4">Squad: {user?.clan || "none"}</p>
-              <div className="flex gap-4 justify-center md:justify-start">
-                {user?.links?.map((el, index) => (
-                  <Link
-                    to={el?.value}
-                    aria-label={el?.keys}
-                    key={index}
-                    className="text-gray-600 hover:text-gray-800 transition-colors"
-                  >
-                    {el?.keys}
-                  </Link>
-                ))}
+              <div className="flex gap-4 justify-center md:justify-start text-black">
+                <Link to={user.github} target='_blank' className='text-black'><Github /></Link>
+                <Link to={user.linkedin} target='_blank' className='text-black'><Linkedin /></Link>
+                <Link to={user.twitter} target='_blank' className='text-black'><Twitter /></Link>
+                <Link to={user.portfolio} target='_blank' className='text-black'><ContactRound /></Link>
               </div>
             </div>
           </div>
@@ -81,7 +76,7 @@ function UserProfile() {
                 user.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                    className="px-4 py-2 rounded-full bg-purple-600 text-white"
                   >
                     {skill}
                   </span>
@@ -96,12 +91,12 @@ function UserProfile() {
           <div className="mb-12">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold mb-6 text-gray-950">Projects</h2>
-              <button
+              {loaction.pathname == "/profile" && <button
                 onClick={() => setIsDialogOpen(true)}
                 className="px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600"
               >
                 Add New Project
-              </button>
+              </button>}
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               {user?.projects?.length > 0 ? (
