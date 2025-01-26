@@ -14,7 +14,7 @@ const MCQTestGenerator = () => {
 
   const generateTest = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/generate-mcq", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate-mcq`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +31,9 @@ const MCQTestGenerator = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 style={{ fontSize: "24px", fontWeight: "bold", textAlign: "center", marginBottom: "20px" }}>MCQ Test Generator</h1>
+      <h1 style={{ fontSize: "24px", fontWeight: "bold", textAlign: "center", marginBottom: "20px" }}>
+        MCQ Test Generator
+      </h1>
 
       <div style={{ padding: "20px", border: "1px solid #ccc", borderRadius: "8px", marginBottom: "20px" }}>
         <h2 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "20px" }}>Enter Topics and Difficulty</h2>
@@ -69,7 +71,15 @@ const MCQTestGenerator = () => {
 
         <button
           onClick={generateTest}
-          style={{ width: "100%", padding: "10px", backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+          style={{
+            width: "100%",
+            padding: "10px",
+            backgroundColor: "#007BFF",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
         >
           Generate Test
         </button>
