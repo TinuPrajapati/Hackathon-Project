@@ -13,6 +13,9 @@ import SignUp from './Pages/SignUp.jsx'
 import Setting from "./Pages/Setting.jsx"
 import FindMember from "./Pages/FindMember.jsx"
 import MCQTestGenerator from './components/MCQTestGenerator.jsx'
+import CreateSquad from './components/CreateSquad.jsx'
+import FindProjects from './Pages/FindProjects.jsx'
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +29,8 @@ const router = createBrowserRouter(
       <Route path="setting" element={<Setting/>}/>
       <Route path="findmember" element={<FindMember/>}/>
       <Route path="mcqtestgenerator" element={<MCQTestGenerator/>}/>
+      <Route path="createsquad" element={<CreateSquad/>}/>\
+      <Route path="findprojects" element={<FindProjects/>}/>
     </Route>
   )
 )

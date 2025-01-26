@@ -65,7 +65,7 @@ const Header = () => {
                             Find a Member
                         </NavLink>
                         <NavLink
-                            to="/projects"
+                            to="/findprojects"
                             className={({ isActive }) => `${isActive ? "bg-purple-500 text-white" : "hover:text-white hover:bg-purple-300"} rounded-md  px-3 py-2 text-sm font-medium `} aria-current="page"
                         >
                             Projects

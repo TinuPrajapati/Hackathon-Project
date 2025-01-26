@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 
+const Loader = () => (
+  <div className="flex justify-center items-center h-full">
+    <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
+  </div>
+);
+
 const MCQTestGenerator = () => {
   const [topics, setTopics] = useState(["", "", "", ""]);
   const [difficulty, setDifficulty] = useState("easy");
@@ -7,6 +13,7 @@ const MCQTestGenerator = () => {
   const [showTest, setShowTest] = useState(false);
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false); // Loader state
 
   const handleTopicChange = (index, value) => {
     const newTopics = [...topics];
@@ -19,6 +26,7 @@ const MCQTestGenerator = () => {
   };
 
   const generateTest = async () => {
+    setLoading(true); // Show loader
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate-mcq`, {
         method: "POST",
@@ -33,10 +41,13 @@ const MCQTestGenerator = () => {
       setResults(null); // Reset results when generating a new test
     } catch (error) {
       console.error("Error generating test:", error);
+    } finally {
+      setLoading(false); // Hide loader
     }
   };
 
   const submitTest = async () => {
+    setLoading(true); // Show loader
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/submit-answers`, {
         method: "POST",
@@ -49,6 +60,8 @@ const MCQTestGenerator = () => {
       setResults(data); // Store results after submission
     } catch (error) {
       console.error("Error submitting test:", error);
+    } finally {
+      setLoading(false); // Hide loader
     }
   };
 
@@ -56,7 +69,9 @@ const MCQTestGenerator = () => {
     <div className="p-8 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold text-center mb-8 text-gray-800">MCQ Test Generator</h1>
 
-      {!showTest && (
+      {loading && <Loader />} {/* Show loader if loading */}
+
+      {!loading && !showTest && (
         <div className="p-6 border border-gray-300 rounded-lg mb-6 bg-white shadow">
           <h2 className="text-xl font-semibold mb-6 text-gray-700">Enter Topics and Difficulty</h2>
 
@@ -106,7 +121,7 @@ const MCQTestGenerator = () => {
         </div>
       )}
 
-      {showTest && (
+      {!loading && showTest && (
         <div className="p-6 border border-gray-300 rounded-lg bg-white shadow">
           <h2 className="text-xl font-semibold mb-6 text-gray-700">Your MCQ Test</h2>
           {questions.map((question, index) => (
@@ -145,26 +160,10 @@ const MCQTestGenerator = () => {
         </div>
       )}
 
-      {results && (
+      {!loading && results && (
         <div className="p-6 border border-gray-300 rounded-lg mt-6 bg-white shadow">
           <h2 className="text-xl font-semibold mb-6 text-gray-700">Test Results</h2>
           <p className="font-bold text-gray-800 mb-4">Your Score: {results.score}</p>
-          {/* {results.results.map((result, index) => (
-            <div key={index} className="mb-6">
-              <p>
-                <strong>Question {index + 1}:</strong> {result.question}
-              </p>
-              <p>
-                <strong>Your Answer:</strong> {result.selectedAnswer || "No answer selected"}
-              </p>
-              <p>
-                <strong>Correct Answer:</strong> {result.correctAnswer}
-              </p>
-              <p className={`mt-2 ${result.isCorrect ? "text-green-600" : "text-red-600"}`}>
-                {result.isCorrect ? "Correct" : "Incorrect"}
-              </p>
-            </div>
-          ))} */}
         </div>
       )}
     </div>
