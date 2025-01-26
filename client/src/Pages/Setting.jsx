@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function App() {
     const navigate = useNavigate()
+    const [image,setImage] = useState("")
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -35,6 +36,7 @@ function App() {
         const { id } = e.target;
         const file = e.target.files[0];
         if (file) {
+            setImage(file)
             setFormData({
                 ...formData,
                 [id]: URL.createObjectURL(file),
@@ -63,25 +65,47 @@ function App() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/update_user`, { ...formData, image: formData.profileImage }, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                withCredentials: true
-            });
+            const formDataToSend = new FormData();
+            formDataToSend.append('name', formData.name);
+            formDataToSend.append('email', formData.email);
+            formDataToSend.append('gender', formData.gender);
+            formDataToSend.append('userId', formData.userId);
+            formDataToSend.append('about', formData.about);
+            formDataToSend.append('skills', formData.skills);
+            formDataToSend.append('number', formData.number);
+            formDataToSend.append('location', formData.location);
+            formDataToSend.append('github', formData.github);
+            formDataToSend.append('linkedin', formData.linkedin);
+            formDataToSend.append('twitter', formData.twitter);
+            formDataToSend.append('portfolio', formData.portfolio);
+            formDataToSend.append('image', image); // Ensure this is appended correctly
+    
+            const response = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api/user/update_user`,
+                formDataToSend,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    withCredentials: true,
+                }
+            );
+    
             Swal.fire({
                 title: response.data.message,
-                icon: "success"
+                icon: 'success',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    navigate("/profile")
+                    navigate('/profile');
                 }
             });
-            getUser()
+    
+            getUser();
         } catch (error) {
-            console.log(error);
+            console.error('Error updating user:', error);
         }
     };
+    
 
     const getUser = async () => {
         try {

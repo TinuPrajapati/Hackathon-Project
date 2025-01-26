@@ -3,33 +3,84 @@ import { Github, Linkedin, Twitter, Instagram, ContactRound } from 'lucide-react
 import axios from 'axios';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import NewAddProject from './NewAddProject'; // Import the NewAddProject component
+import Swal from 'sweetalert2'
 
 function UserProfile() {
-  const {id} = useParams();
+  const { id } = useParams();
   const loaction = useLocation();
   const [user, setUser] = useState({});
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // State to manage dialog visibility
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    link: "",
+    mode: "",
+    image: "https://img.freepik.com/free-photo/project-plan-program-activity-solution-strategy-concept_53876-15827.jpg?t=st=1737881778~exp=1737885378~hmac=6a6736b01fc18ad20b1bdb75ba24cabd231a46cea0f19384eab463911d0d013d&w=740",
+  }); // State to manage dialog visibility
 
   const getUser = async () => {
     try {
-      let response =""
-      if(id){
+      let response = ""
+      if (id) {
         response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/user/${id}`,
           { withCredentials: true }
         );
-      }else{
+      } else {
         response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/user/user`,
           { withCredentials: true }
         );
       }
       setUser(response.data);
-      // console.log(response.data)
+      console.log(response.data)
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("link", formData.link);
+      formDataToSend.append("mode", formData.mode);
+
+      // If the image is a file, append it properly
+      if (formData.image instanceof File) {
+        formDataToSend.append("image", formData.image);
+      }
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/projects/add`,
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true
+        }
+      );
+
+      Swal.fire({
+        title: response.data.message,
+        icon: "success"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setIsDialogOpen(false);
+          getUser();
+        }
+      });
+    } catch (error) {
+      const message = error.response?.data?.message || "Failed to add project. Please try again.";
+      console.log(error);
+      Swal.fire({
+        title: "Error",
+        text: message,
+        icon: "error"
+      });
+    }
+  };
+
 
   useEffect(() => {
     getUser();
@@ -109,21 +160,24 @@ function UserProfile() {
               </button>}
             </div>
             <div className="grid md:grid-cols-2 gap-6">
-              {user?.projects?.length > 0 ? (
+              {user.projects?.length > 0 ? (
                 user.projects.map((project) => (
                   <div
                     key={project.title}
                     className="bg-white/5 rounded-xl overflow-hidden hover:bg-white/10 transition-colors border-purple-500 border-4"
                   >
                     <img
-                      src={project.image}
+                      src={project.projectImage}
                       alt={project.title}
                       className="w-full h-48 object-cover"
                     />
-                    <div className="p-6">
-                      <div className="flex justify-between items-start mb-4">
+                    <div className="px-4 py-3 bg-gradient-to-br from-[#d24df7] to-[#7000f0]">
+                      <div className="flex justify-between items-start mb-2 ">
                         <h3 className="text-xl font-semibold">{project.title}</h3>
-                        <span className="text-sm text-white/60">{project.date}</span>
+                        <span className="text-sm text-white">
+                          {new Date(project.createdAt).toLocaleDateString()}
+                        </span>
+
                       </div>
                       <p className="text-white/70 mb-4">{project.description}</p>
                       <a
@@ -156,7 +210,7 @@ function UserProfile() {
             >
               ×
             </button>
-            <NewAddProject setIsDialogOpen={setIsDialogOpen}  />
+            <NewAddProject handleSubmit={handleSubmit} setFormData={setFormData} formData={formData} />
           </div>
         </div>
       )}

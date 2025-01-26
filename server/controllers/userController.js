@@ -156,14 +156,20 @@ export const logoutUser = (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { userId: id } = req.user;
-    const { name, userId,about, email, number, skills,location,gender,github,linkedin,twitter,portfolio } = req.body;
+    const { 
+      name, userId, about, email, number, 
+      skills, location, gender, github, linkedin, 
+      twitter, portfolio 
+    } = req.body;
+
     let path = "";
     let filename = "";
-    if(req.file){
-    path = req?.file?.path,
-    filename = req?.file?.filename
+
+    if (req.file) {
+      path = req.file.path;
+      filename = req.file.filename;
     }
-    console.log(req.file)
+
     // Find the user before updating
     const existingUser = await User.findById(id);
     if (!existingUser) {
@@ -171,8 +177,9 @@ export const updateUser = async (req, res) => {
     }
 
     // If a new profile image is uploaded, delete the old one from Cloudinary
-    if(existingUser.filename){
-      await cloudinary.uploader.destroy(existingUser.filename); 
+    if (existingUser.filename) {
+      await cloudinary.uploader.destroy(existingUser.filename);
+      existingUser.skills=[]
     }
 
     // Update the user information
@@ -191,21 +198,22 @@ export const updateUser = async (req, res) => {
         linkedin,
         twitter,
         portfolio,
-        profileImage: path ? path : "",  // Set empty string if no new image
-        filename: filename ? filename : "" // Set empty string if no new image
+        profileImage: path || existingUser.profileImage, 
+        filename: filename || existingUser.filename
       },
       { new: true, runValidators: true }
     );
 
     // If the user wasn't updated properly
     if (!updatedUser) {
-      return res.status(404).json({ message: "Failed to update user" });
+      return res.status(400).json({ message: "Failed to update user" });
     }
 
-    res.status(200).json({ message: "User updated successfully" ,updateUser});
+    res.status(200).json({ message: "User updated successfully", updatedUser });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 

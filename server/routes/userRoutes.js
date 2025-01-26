@@ -15,6 +15,7 @@ router_user.post('/login',loginUser )
 router_user.post('/logout',protectRoute,logoutUser )
 
 // put request
-router_user.put('/update_user',protectRoute,upload.single("image"),updateUser)
+router_user.put('/update_user', protectRoute, upload.single("image"), updateUser);
+
 
 export default router_user;

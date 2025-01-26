@@ -1,45 +1,9 @@
 import React, { useState, useRef } from "react";
 import { Globe, Lock, Upload, X } from "lucide-react";
-import axios from "axios";
-import Swal from 'sweetalert2'
 
-const AddNewProject = ({setIsDialogOpen}) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    link: "",
-    mode:"",
-    image: "",
-  });
-
+const AddNewProject = ({handleSubmit,setFormData,formData}) => {
   const [preview, setPreview] = useState("");
   const fileInputRef = useRef(null);
-
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/projects/add`,
-        formData,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true
-        }
-      );
-      Swal.fire({
-        title: response.data.message,
-        icon: "success"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          setIsDialogOpen(false)
-        }
-      });
-    } catch (error) {
-      // Error handling
-      const message = error.response?.data?.message || "Login failed. Please try again.";
-      setErrorMessage(message);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -14,7 +14,7 @@ const projectSchema = new mongoose.Schema(
     },
     projectImage: {
       type: String,
-      default: "",
+      default: "https://img.freepik.com/free-photo/project-plan-program-activity-solution-strategy-concept_53876-15827.jpg?t=st=1737881778~exp=1737885378~hmac=6a6736b01fc18ad20b1bdb75ba24cabd231a46cea0f19384eab463911d0d013d&w=740",
     },
     // this is required for delete existing image when user update/delete project image
     filename: {

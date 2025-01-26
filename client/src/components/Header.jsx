@@ -81,7 +81,7 @@ const Header = () => {
                     <div className="relative">
                         <button type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-400 focus:outline-none" onClick={() => setOpen(!open)}>
                             {user?.profileImage ?
-                                <img className="size-10 rounded-full" src={user?.profileImage} alt="User" />
+                                <img className="size-10 rounded-full" src={user.profileImage} alt="User" />
                                 :
                                 <div className="w-10 h-10 custom-gradient rounded-full bg-purple-500 flex items-center justify-center text-white font-medium text-xl">
                                     {user?.name.charAt(0)}
