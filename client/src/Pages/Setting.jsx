@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Twitter, Mail, Camera, X } from 'lucide-react';
+import { Github, Linkedin, Twitter, Mail, Camera, X, Instagram, Plus } from 'lucide-react';
 import axios from 'axios';
 
 function App() {
@@ -9,7 +9,6 @@ function App() {
         gender: "",
         userId: "",
         about: "",
-        links: [],
         skills: [],
         number: "",
         profileImage: "",
@@ -18,6 +17,7 @@ function App() {
         github: "",
         linkedin: "",
         twitter: "",
+        portfolio:""
     });
 
     const [newSkill, setNewSkill] = useState('');
@@ -57,9 +57,20 @@ function App() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/update_user`, {...formData,image:formData.profileImage}, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true
+            });
+            console.log(response.data)
+            getUser()
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const getUser = async () => {
@@ -79,13 +90,17 @@ function App() {
         <div className="min-h-screen">
             <form onSubmit={handleSubmit} className="container mx-auto px-4 py-8">
                 <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 shadow-xl">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 relative">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4 relative">
                         <label className="relative group" htmlFor="profileImage">
-                            <img
-                                src={formData.profileImage || '/placeholder-profile.png'}
-                                alt="Profile"
-                                className="w-32 h-32 rounded-full border-4 border-purple-500"
-                            />
+                            <div>
+                                {formData.profileImage ?
+                                    <img className="w-32 h-32 rounded-full border-4 border-purple-500" src={formData?.profileImage} alt="User" />
+                                    :
+                                    <div className="w-32 h-32 custom-gradient rounded-full bg-purple-500 flex items-center justify-center text-white font-medium text-7xl">
+                                        {formData.name.charAt(0)}
+                                    </div>
+                                }
+                            </div>
                             <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                                 <Camera className="text-white" />
                             </div>
@@ -100,7 +115,7 @@ function App() {
                             <input id="coverImage" type="file" accept="image/*" onChange={handleImageChange} className="absolute inset-0 opacity-0 cursor-pointer" />
                         </div>
                     </div>
-                    <div className="space-y-6 mb-8">
+                    <div className="space-y-6 mb-4">
                         <div className='flex gap-4'>
                             <div className='w-1/2'>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -118,6 +133,29 @@ function App() {
                                     name="email"
                                     type="email"
                                     value={formData.email}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                                />
+                            </div>
+                        </div>
+                        <div className='flex gap-4'>
+                            <div className='w-1/2'>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input
+                                    name='number'
+                                    type="text"
+                                    maxLength={10}
+                                    value={formData.number}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                                />
+                            </div>
+                            <div className='w-1/2'>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                                <input
+                                    name="gender"
+                                    type="text"
+                                    value={formData.gender}
                                     onChange={handleChange}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                                 />
@@ -151,30 +189,66 @@ function App() {
                                 name="about"
                                 value={formData.about}
                                 onChange={handleChange}
-                                rows={4}
+                                rows={2}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                             />
                         </div>
                     </div>
 
                     {/* Social Links */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <h2 className="text-2xl font-bold mb-4"></h2>
-                        {
-                            formData.links.map((el, index) => (
-                                <div className='flex '>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        GitHub URL
-                                    </label>
-                                    <input
-                                        type="url"
-                                        value={formData.github}
-                                        onChange={(e) => setFormData({ ...formData, github: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                                    />
-                                </div>
-                            ))
-                        }
+                    <div className=" mb-4">
+                        <h2 className="text-2xl font-bold mb-4">Links</h2>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <Github size={16} className="inline mr-2" />
+                                    GitHub URL
+                                </label>
+                                <input
+                                    type="url"
+                                    value={formData.github}
+                                    onChange={(e) => setFormData({ ...formData, github: e.target.value })}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <Linkedin size={16} className="inline mr-2" />
+                                    LinkedIn URL
+                                </label>
+                                <input
+                                    type="url"
+                                    value={formData.linkedin}
+                                    onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <Twitter size={16} className="inline mr-2" />
+                                    Twitter URL
+                                </label>
+                                <input
+                                    type="url"
+                                    value={formData.twitter}
+                                    onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <Instagram size={16} className="inline mr-2" />
+                                    PortFolio
+                                </label>
+                                <input
+                                    type="url"
+                                    value={formData.portfolio}
+                                    onChange={(e) => setFormData({ ...formData, portfolio: e.target.value })}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                                />
+                            </div>
+                        </div>
+
 
                     </div>
                     {/* Skills Section */}
@@ -196,15 +270,10 @@ function App() {
                             onChange={(e) => setNewSkill(e.target.value)}
                             onKeyDown={handleSkillAdd}
                             placeholder="Add a new skill (press Enter)"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                            className="w-[100%] px-4 py-2 border border-gray-300 rounded-lg"
                         />
                     </div>
                 </div>
-
-
-
-
-
 
                 <div className="flex justify-end gap-4">
                     <button type="button" className="px-6 py-2 border rounded-lg">Cancel</button>

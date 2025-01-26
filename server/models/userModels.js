@@ -12,13 +12,13 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter your Unqiue userId"],
       unique: true,
     },
-    about:{
-      type:String,
-      default:""
+    about: {
+      type: String,
+      default: "",
     },
-    squad:{
-      type:String,
-      default:""
+    squad: {
+      type: String,
+      default: "",
     },
     email: {
       type: String,
@@ -38,12 +38,11 @@ const userSchema = new mongoose.Schema(
     location: {
       type: String,
       required: [true, "Please enter your location"],
-      
     },
     gender: {
       type: String,
       required: [true, "Please enter your gender"],
-      eunm:["Male","Female","Other"]
+      eunm: ["Male", "Female", "Other"],
     },
     profileImage: {
       type: String,
@@ -53,11 +52,22 @@ const userSchema = new mongoose.Schema(
     filename: {
       type: String,
     },
-    links: [
-      {
-        type: String,
-      },
-    ],
+    github: {
+      type: String,
+      default: "",
+    },
+    linkedin: {
+      type: String,
+      default: "",
+    },
+    portfolio: {
+      type: String,
+      default: "",
+    },
+    twitter: {
+      type: String,
+      default: "",
+    },
     skills: [
       {
         type: String,
