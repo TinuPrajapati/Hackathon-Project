@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema(
     },
     profileImage: {
       type: String,
-      default: "",
+      default: "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
     },
     // this is required for delete existing image when user update/delete profile image
     filename: {

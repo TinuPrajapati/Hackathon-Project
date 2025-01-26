@@ -6,6 +6,8 @@ import User from "../models/userModels.js";
 export const createProject = async (req, res) => {
   try {
     const { title, description, link, mode } = req.body;
+    console.log(req.body)
+    console.log(req.file)
     const user = req.user.userId;
     let path = req.file?.path || "";
     let filename = req.file?.filename || "";
@@ -22,7 +24,7 @@ export const createProject = async (req, res) => {
     });
     existUser.projects.push(project._id);
     await existUser.save();
-    res.status(201).json(project);
+    res.status(201).json({mesaage:"Project Created SuccessFully",project});
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Internal Server Error" });

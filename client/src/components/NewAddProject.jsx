@@ -1,22 +1,44 @@
 import React, { useState, useRef } from "react";
 import { Globe, Lock, Upload, X } from "lucide-react";
+import axios from "axios";
+import Swal from 'sweetalert2'
 
-const AddNewProject = () => {
+const AddNewProject = ({setIsDialogOpen}) => {
   const [formData, setFormData] = useState({
-    title: "New Website",
-    description: "Reactjs based",
+    title: "",
+    description: "",
     link: "",
-    mode: "Public",
-    image: null,
+    mode:"",
+    image: "",
   });
 
   const [preview, setPreview] = useState("");
   const fileInputRef = useRef(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission here
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/projects/add`,
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        }
+      );
+      Swal.fire({
+        title: response.data.message,
+        icon: "success"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setIsDialogOpen(false)
+        }
+      });
+    } catch (error) {
+      // Error handling
+      const message = error.response?.data?.message || "Login failed. Please try again.";
+      setErrorMessage(message);
+    }
   };
 
   const handleChange = (e) => {
@@ -40,7 +62,7 @@ const AddNewProject = () => {
   };
 
   const handleRemoveImage = () => {
-    setFormData((prev) => ({ ...prev, image: null }));
+    setFormData((prev) => ({ ...prev, image: "" }));
     setPreview("");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -67,7 +89,7 @@ const AddNewProject = () => {
   };
 
   return (
-    <div className="min-h-[70vh] bg-gray-50 flex items-center justify-center p-2">
+    <div className="min-h-[70vh] flex items-center justify-center p-2">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 overflow-y-auto max-h-[90vh]">
         <form onSubmit={handleSubmit} className="space-y-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
@@ -85,7 +107,7 @@ const AddNewProject = () => {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-500 outline-none rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -101,7 +123,7 @@ const AddNewProject = () => {
               value={formData.description}
               onChange={handleChange}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-500 outline-none rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -118,7 +140,7 @@ const AddNewProject = () => {
               value={formData.link}
               onChange={handleChange}
               placeholder="https://"
-              className="w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-500 rounded-md outline-none shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
 
@@ -159,7 +181,7 @@ const AddNewProject = () => {
                         name="image"
                         type="file"
                         ref={fileInputRef}
-                        className="sr-only"
+                        className="sr-only outline-none"
                         accept="image/*"
                         onChange={handleImageChange}
                       />
@@ -183,7 +205,7 @@ const AddNewProject = () => {
                   value="Public"
                   checked={formData.mode === "Public"}
                   onChange={handleChange}
-                  className="w-4 h-4 border-gray-500 focus:ring-blue-500"
+                  className="w-4 h-4 border-gray-500 focus:ring-blue-500 outline-none"
                 />
                 <Globe className="w-4 h-4 text-gray-500" />
                 <span className="text-sm text-gray-700">Public</span>
@@ -195,7 +217,7 @@ const AddNewProject = () => {
                   value="Private"
                   checked={formData.mode === "Private"}
                   onChange={handleChange}
-                  className="w-4 h-4 border-gray-500 focus:ring-blue-500"
+                  className="w-4 h-4 border-gray-500 outline-none focus:ring-blue-500"
                 />
                 <Lock className="w-4 h-4 text-gray-500" />
                 <span className="text-sm text-gray-700">Private</span>

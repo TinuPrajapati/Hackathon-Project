@@ -3,12 +3,13 @@ import { MessageSquare, UserPlus } from 'lucide-react';
 import {Link} from 'react-router-dom';
 
 export function ProfileCard({ profile }) {
+  
   return (
-    <Link to={'/user_profile/tinu'} className="bg-gray-50 rounded-2xl shadow-md p-6 transition-transform transform hover:scale-105 hover:shadow-lg">
+    <Link to={`/user_profile/${profile.userId}`} className="bg-gray-50 rounded-2xl shadow-md p-6 transition-transform transform hover:scale-105 hover:shadow-lg">
       <div className="flex items-center mb-6 gap-4">
         <div className="relative w-28 h-28">
           <img
-            src={profile.imageUrl}
+            src={profile.profileImage}
             alt={profile.name}
             className="w-full h-full rounded-full object-cover border-4 border-purple-200"
           />
@@ -20,7 +21,7 @@ export function ProfileCard({ profile }) {
         </div>
         <div>
           <h3 className="text-2xl font-bold text-gray-800">{profile.name}</h3>
-          <p className="text-sm text-gray-500">{profile.groupName || 'No Group'}</p>
+          <p className="text-sm text-gray-500">{profile.squad || 'No Group'}</p>
           {profile.seekingGroup && (
             <span className="mt-2 bg-purple-100 text-purple-600 text-xs font-medium py-1 px-3 rounded-full">
               Seeking Group
@@ -29,10 +30,10 @@ export function ProfileCard({ profile }) {
         </div>
       </div>
 
-      <p className="text-left text-gray-700 mb-4">{profile.bio}</p>
+      <p className="text-left text-gray-700 mb-4">{profile.about}</p>
 
       <div className="flex flex-wrap justify-center gap-2 mb-4">
-        {profile.tags.map((tag) => (
+        {profile.skills.map((tag) => (
           <span
             key={tag}
             className="bg-purple-200 text-purple-800 text-xs font-medium py-1 px-3 rounded-full"

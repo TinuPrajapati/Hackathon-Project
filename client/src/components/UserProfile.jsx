@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Twitter, Instagram, ContactRound } from 'lucide-react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import NewAddProject from './NewAddProject'; // Import the NewAddProject component
 
 function UserProfile() {
+  const {id} = useParams();
   const loaction = useLocation();
   const [user, setUser] = useState({});
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State to manage dialog visibility
 
   const getUser = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/user/user`,
-        { withCredentials: true }
-      );
+      let response =""
+      if(id){
+        response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/${id}`,
+          { withCredentials: true }
+        );
+      }else{
+        response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/user`,
+          { withCredentials: true }
+        );
+      }
       setUser(response.data);
+      // console.log(response.data)
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -23,7 +33,7 @@ function UserProfile() {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [id]);
 
   return (
     <div className="min-h-screen">
@@ -34,13 +44,13 @@ function UserProfile() {
             <div className="w-32 h-32 rounded-full border-4 border-white absolute left-5">
               {user?.profileImage ? (
                 <img
-                  className="size-10 rounded-full"
+                  className="w-full h-full rounded-full bg-white"
                   src={user.profileImage}
                   alt={`${user.name || "User"}'s profile`}
                 />
               ) : (
                 <div className="w-full h-full custom-gradient text-7xl rounded-full bg-purple-500 flex items-center justify-center text-white font-medium">
-                  {user?.name?.charAt(0) || "U"}
+                  {user.name?.charAt(0) || "U"}
                 </div>
               )}
             </div>
@@ -146,7 +156,7 @@ function UserProfile() {
             >
               ×
             </button>
-            <NewAddProject onClose={() => setIsDialogOpen(false)} />
+            <NewAddProject setIsDialogOpen={setIsDialogOpen}  />
           </div>
         </div>
       )}

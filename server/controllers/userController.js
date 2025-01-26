@@ -76,6 +76,41 @@ export const getUser = async (req, res) => {
     res.status(500).json({ message: "Internal Server error" });
   }
 };
+export const allUsers = async (req, res) => {
+  try {
+    const { userId } = req.user;  // Get the logged-in user's ID
+    const users = await User.find({ _id: { $ne: userId } })  // Exclude logged-in user
+      .select("_id name profileImage about squad skills userId");
+
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "No users found" });
+    }
+
+    res.status(200).json(users);  // Send all users except the logged-in one
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const specificUsers = async (req, res) => {
+  try {
+    const { id } = req.params;  // Get the logged-in user's ID
+    const users = await User.findOne({userId:id})  // Exclude logged-in user
+      .select("-password");
+
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "No users found" });
+    }
+
+    res.status(200).json(users);  // Send all users except the logged-in one
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
 
 // Login User
 export const loginUser = async (req, res) => {
