@@ -121,13 +121,14 @@ export const logoutUser = (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { userId: id } = req.user;
-    const { name, userId, email, number, skills, interestedIn,links,location,gender } = req.body;
+    const { name, userId,about, email, number, skills,location,gender,github,linkedin,twitter,portfolio } = req.body;
     let path = "";
     let filename = "";
     if(req.file){
     path = req?.file?.path,
     filename = req?.file?.filename
     }
+    console.log(req.file)
     // Find the user before updating
     const existingUser = await User.findById(id);
     if (!existingUser) {
@@ -135,7 +136,9 @@ export const updateUser = async (req, res) => {
     }
 
     // If a new profile image is uploaded, delete the old one from Cloudinary
-    await cloudinary.uploader.destroy(existingUser.filename); 
+    if(existingUser.filename){
+      await cloudinary.uploader.destroy(existingUser.filename); 
+    }
 
     // Update the user information
     const updatedUser = await User.findByIdAndUpdate(
@@ -144,12 +147,15 @@ export const updateUser = async (req, res) => {
         name,
         userId,
         email,
+        about,
         number,
-        links,
         skills,
-        interestedIn,
         location,
         gender,
+        github,
+        linkedin,
+        twitter,
+        portfolio,
         profileImage: path ? path : "",  // Set empty string if no new image
         filename: filename ? filename : "" // Set empty string if no new image
       },
@@ -161,7 +167,7 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: "Failed to update user" });
     }
 
-    res.status(200).json({ message: "User updated successfully", updatedUser });
+    res.status(200).json({ message: "User updated successfully" ,updateUser});
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Server error", error: error.message });
