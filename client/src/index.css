@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-.custom-gradient{
-    background: linear-gradient(to bottom right, #d24df7, #7000f0);
+.custom-gradient {
+  background: linear-gradient(to bottom right, #d24df7,  #7000f0);
 }
 
-::-webkit-scrollbar{
-    width: 0;
+::-webkit-scrollbar {
+  width: 0;
 }
