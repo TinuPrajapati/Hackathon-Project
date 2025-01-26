@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express"
 const { generateMCQ } = require("../controllers/mcqController");
 
 const router = express.Router();
 
 router.post("/generate-mcq", generateMCQ);
 
-module.exports = router;
+export default router;

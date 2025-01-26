@@ -11,7 +11,7 @@ import router_clan from './routes/clanRoutes.js';
 import router_project from './routes/projectRoutes.js';
 import { app,server } from './lib/socket.js';
 import router_msg from './routes/messageRoutes.js';
-const mcqRoutes = require("./routes/mcqRoutes");
+import router from "./routes/mcqRoutes.js"
 
 // Middleware
 app.use(express.json());
@@ -39,7 +39,7 @@ app.use("/api/clan",router_clan)
 app.use("/api/projects",router_project)
 app.use("/api/messages",router_msg)
 // Routes
-app.use("/api/mcqgenrater", mcqRoutes);
+app.use("/api/mcqgenrater", router);
 
 server.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
