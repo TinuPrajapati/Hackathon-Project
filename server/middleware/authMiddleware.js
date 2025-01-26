@@ -2,9 +2,8 @@ import jwt from "jsonwebtoken";
 
 export const protectRoute = async (req, res, next) => {
   try {
-    // Get token from cookies or headers
-    const cookieName = process.env.COOKIE_SECRET;
-    const token = req.cookies[cookieName];
+
+    const token = req.headers["authorization"].split(" ")[1];
 
     if (!token) {
       return res.status(401).json({ message: "Access denied. No token provided",login:false });

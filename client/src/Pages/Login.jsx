@@ -3,6 +3,7 @@ import { Mail, Lock, ArrowRight, GraduationCap, Eye, EyeOff } from "lucide-react
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from 'sweetalert2'
+import Cookies from 'js-cookie'
 
 function Login() {
   const navigate = useNavigate()
@@ -21,15 +22,16 @@ function Login() {
         `${import.meta.env.VITE_BACKEND_URL}/api/user/login`,
         { email, password },
         {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true
+          headers: { "Content-Type": "application/json" }
         }
       );
+      console.log(response.data)
       Swal.fire({
         title: response.data.message,
         icon: "success"
       }).then((result) => {
         if (result.isConfirmed) {
+          Cookies.set('name', response.data.token, { expires: 7 })
           navigate("/")
         }
       });

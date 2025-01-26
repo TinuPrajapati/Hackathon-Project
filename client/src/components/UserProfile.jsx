@@ -6,6 +6,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import NewAddProject from './NewAddProject'; // Import the NewAddProject component
 import Swal from 'sweetalert2'
 import FriendRequestButton from './AddFriend';
+import Cookies from 'js-cookie'
 
 function UserProfile() {
   const { id } = useParams();
@@ -27,14 +28,24 @@ function UserProfile() {
       if (id) {
         response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/user/${id}`,
-          { withCredentials: true }
+          {
+            headers: {
+              'Authorization': 'Bearer ' + Cookies.get('name')
+            },
+            withCredentials: true
+          }
         );
         setUser(response.data.user);
         setSend(response.data.action)
       } else {
         response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/user/user`,
-          { withCredentials: true }
+          {
+            headers: {
+              'Authorization': 'Bearer ' + Cookies.get('name')
+            },
+            withCredentials: true
+          }
         );
         setUser(response.data);
       }
@@ -61,7 +72,10 @@ function UserProfile() {
         `${import.meta.env.VITE_BACKEND_URL}/api/projects/add`,
         formDataToSend,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + Cookies.get('name')
+          },
           withCredentials: true
         }
       );
@@ -117,7 +131,7 @@ function UserProfile() {
                 </div>
               )}
             </div>
-            {(loaction.pathname !== "/profile" && send==true ) &&
+            {(loaction.pathname !== "/profile" && send == true) &&
               <FriendRequestButton friendId={user._id} />
             }
             <img

@@ -3,10 +3,11 @@ import { Github, Linkedin, Twitter, Mail, Camera, X, Instagram, Plus } from 'luc
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 function App() {
     const navigate = useNavigate()
-    const [image,setImage] = useState("")
+    const [image, setImage] = useState("")
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -79,18 +80,19 @@ function App() {
             formDataToSend.append('twitter', formData.twitter);
             formDataToSend.append('portfolio', formData.portfolio);
             formDataToSend.append('image', image); // Ensure this is appended correctly
-    
+
             const response = await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api/user/update_user`,
                 formDataToSend,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer ' + Cookies.get('name')
                     },
-                    withCredentials: true,
+                    withCredentials: true
                 }
             );
-    
+
             Swal.fire({
                 title: response.data.message,
                 icon: 'success',
@@ -99,17 +101,22 @@ function App() {
                     navigate('/profile');
                 }
             });
-    
+
             getUser();
         } catch (error) {
             console.error('Error updating user:', error);
         }
     };
-    
+
 
     const getUser = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/user`, { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/user`, {
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('name')
+                },
+                withCredentials: true
+            });
             setFormData(response.data);
         } catch (error) {
             console.log(error);

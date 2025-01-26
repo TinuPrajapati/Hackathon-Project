@@ -3,6 +3,7 @@ import { Users, Sliders } from 'lucide-react';
 import { ProfileCard } from '../components/ProfileCard';
 import { SearchBar } from '../components/SearchBar';
 import axios from 'axios';
+import Cookies from 'js-cookie'
 
 function FindMember() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,7 +40,12 @@ function FindMember() {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/user/all`,
-        { withCredentials: true }
+        {
+          headers: {
+            'Authorization': 'Bearer ' + Cookies.get('name')
+          },
+          withCredentials: true
+        }
       );
       setUserData(response.data); // Set the fetched user data
     } catch (error) {
@@ -71,13 +77,13 @@ function FindMember() {
       {/* Search and Filters */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
-        
+
         <div className="mt-6 flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2">
             <Sliders className="w-5 h-5 text-gray-500" />
             <span className="text-gray-700">Filters:</span>
           </div>
-          
+
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
@@ -108,11 +114,10 @@ function FindMember() {
                       : [...prev, tag]
                   )
                 }
-                className={`px-3 py-1 rounded-full text-sm transition-colors ${
-                  selectedTags.includes(tag)
+                className={`px-3 py-1 rounded-full text-sm transition-colors ${selectedTags.includes(tag)
                     ? 'bg-[#7000f0] text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 {tag}
               </button>
