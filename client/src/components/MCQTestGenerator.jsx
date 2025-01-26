@@ -14,7 +14,7 @@ const MCQTestGenerator = () => {
 
   const generateTest = async () => {
     try {
-      const response = await fetch("http://localhost:5000/generate-mcq", {
+      const response = await fetch("http://localhost:8000/generate-mcq", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
