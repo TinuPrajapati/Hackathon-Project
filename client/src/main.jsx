@@ -18,24 +18,28 @@ import FindProjects from './Pages/FindProjects.jsx'
 import Index from './Pages/Index.jsx'
 import AboutPage from './Pages/AboutPage.jsx'
 import ContactPage from "./Pages/ContactPage.jsx"
+import ScrollToTop from './components/Scroll.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />} >
+    <Route path="/" element={<>
+      <ScrollToTop />
+      <App />
+    </>} >
       <Route path="" element={<Index />} />
       <Route path="home" element={<HomePage />} />
       <Route path="profile" element={<UserProfile />} />
-      <Route path="about" element={<AboutPage/>} />
-      <Route path="contact" element={<ContactPage/>} />
+      <Route path="about" element={<AboutPage />} />
+      <Route path="contact" element={<ContactPage />} />
       <Route path="user_profile/:id" element={<UserProfile />} />
       <Route path="squads_profile" element={<SquadProfile />} />
-      <Route path="login" element={<Login/>} />
-      <Route path="signup" element={<SignUp/>} />
-      <Route path="setting" element={<Setting/>}/>
-      <Route path="findmember" element={<FindMember/>}/>
-      <Route path="mcqtestgenerator" element={<MCQTestGenerator/>}/>
-      <Route path="create_squad" element={<CreateSquad/>}/>
-      <Route path="findprojects" element={<FindProjects/>}/>
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<SignUp />} />
+      <Route path="setting" element={<Setting />} />
+      <Route path="findmember" element={<FindMember />} />
+      <Route path="mcqtestgenerator" element={<MCQTestGenerator />} />
+      <Route path="create_squad" element={<CreateSquad />} />
+      <Route path="findprojects" element={<FindProjects />} />
     </Route>
   )
 )

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Mail, Lock, ArrowRight, GraduationCap, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, ArrowRight, GraduationCap, Eye, EyeOff, Brain } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from 'sweetalert2'
@@ -61,8 +61,8 @@ function Login() {
         <div className="w-full lg:w-1/2 md:p-7">
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <GraduationCap className="h-8 w-8 text-indigo-600" />
-              <span className="text-2xl font-bold text-gray-900">SkillBridge</span>
+              <Brain className="h-8 w-8 text-indigo-600" />
+              <span className="text-2xl font-bold text-gray-900">Brain Squad</span>
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h2>
             <p className="text-gray-600">Please enter your details to sign in</p>

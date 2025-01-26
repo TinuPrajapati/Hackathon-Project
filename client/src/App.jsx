@@ -17,7 +17,7 @@ function App() {
           <main className="max-w-7xl">
             <Outlet />
           </main>
-          {(location.pathname !== "/" || location.pathname !== "/about" || location.pathname !== "/contact") && <Footer/>}
+          {(location.pathname != "/" || location.pathname != "/about" || location.pathname != "/contact") && <Footer/>}
           {/* <Footer/> */}
         </>
       )}

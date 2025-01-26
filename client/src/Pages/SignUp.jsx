@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Mail, Lock, ArrowRight, GraduationCap, User, Phone, MapPin, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, ArrowRight, GraduationCap, User, Phone, MapPin, Eye, EyeOff, Brain } from "lucide-react";
 import axios from "axios";
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
@@ -93,11 +93,11 @@ function SignUp() {
         <div className="w-full lg:w-[60%] p-8 md:p-6 overflow-y-auto max-h-screen">
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <GraduationCap className="h-8 w-8 text-indigo-600" />
-              <span className="text-2xl font-bold text-gray-900">SkillBridge</span>
+              <Brain className="h-8 w-8 text-indigo-600" />
+              <span className="text-2xl font-bold text-gray-900">Brain Squad</span>
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Create an account</h2>
-            <p className="text-gray-600">Join SkillBridge to start your learning journey</p>
+            <p className="text-gray-600">Join Brain Squad to start your learning journey</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
