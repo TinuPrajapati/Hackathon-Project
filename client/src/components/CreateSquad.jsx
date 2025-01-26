@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { allSkills } from '../skillsList'
+import { allSkills } from '../Features/skillsList'
 
 function CreateSquad() {
   const [squadName, setSquadName] = useState('')
