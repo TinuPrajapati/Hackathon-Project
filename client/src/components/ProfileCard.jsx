@@ -1,9 +1,10 @@
 import React from 'react';
 import { MessageSquare, UserPlus } from 'lucide-react';
+import {Link} from 'react-router-dom';
 
 export function ProfileCard({ profile }) {
   return (
-    <div className="bg-gray-50 rounded-2xl shadow-md p-6 transition-transform transform hover:scale-105 hover:shadow-lg">
+    <Link to={'/user_profile/tinu'} className="bg-gray-50 rounded-2xl shadow-md p-6 transition-transform transform hover:scale-105 hover:shadow-lg">
       <div className="flex items-center mb-6 gap-4">
         <div className="relative w-28 h-28">
           <img
@@ -51,6 +52,6 @@ export function ProfileCard({ profile }) {
           Message
         </button>
       </div>
-    </div>
+    </Link>
   );
 }
