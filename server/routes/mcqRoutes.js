@@ -1,5 +1,5 @@
-import express from "express"
-const { generateMCQ } = require("../controllers/mcqController");
+import express from "express";
+import { generateMCQ } from "../controllers/mcqController.js";
 
 const router = express.Router();
 
