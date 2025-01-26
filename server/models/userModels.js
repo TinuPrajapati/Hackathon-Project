@@ -12,6 +12,14 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter your Unqiue userId"],
       unique: true,
     },
+    about:{
+      type:String,
+      default:""
+    },
+    squad:{
+      type:String,
+      default:""
+    },
     email: {
       type: String,
       required: [true, "Please enter your email"],

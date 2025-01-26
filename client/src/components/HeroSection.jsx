@@ -3,7 +3,7 @@ import { Search, Filter, Sparkles } from 'lucide-react';
 import SearchBar from './SearchBar';
 import Button from './Button';
 
-const HeroSection = () => {
+const   HeroSection = () => {
   const [skills, setSkills] = React.useState(false);
   const [showFilters, setShowFilters] = React.useState(false);
   const allSkills = ['React', 'Node.js', 'Python', 'Figma', 'User Research', 'Prototyping', 'Machine Learning', 'Data Analysis'];

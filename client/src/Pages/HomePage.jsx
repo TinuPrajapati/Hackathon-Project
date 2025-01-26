@@ -48,7 +48,7 @@ const HomePage = () => {
       <HeroSection />
       <RecommendedSquads />
       <Features />
-      <RecommendedTeammates filteredTeammates={allTeammates} />
+      {/* <RecommendedTeammates filteredTeammates={allTeammates} /> */}
     </div>
   )
 }

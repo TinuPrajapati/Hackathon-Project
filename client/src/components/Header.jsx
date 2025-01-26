@@ -53,19 +53,19 @@ const Header = () => {
                     <div className="flex space-x-4">
                         <NavLink
                             to="/"
-                            className={({ isActive }) => `${isActive ? "bg-gray-900 text-white" : "hover:text-white hover:bg-gray-700"} rounded-md  px-3 py-2 text-sm font-medium `} aria-current="page"
+                            className={({ isActive }) => `${isActive ? "bg-purple-500 text-white" : "hover:text-white hover:bg-purple-300"} rounded-md  px-3 py-2 text-sm font-medium `} aria-current="page"
                         >
                             Squads
                         </NavLink>
                         <NavLink
                             to="/findmember"
-                            className={({ isActive }) => `${isActive ? "bg-gray-900 text-white" : "hover:text-white hover:bg-gray-700"} rounded-md  px-3 py-2 text-sm font-medium `} aria-current="page"
+                            className={({ isActive }) => `${isActive ? "bg-purple-500 text-white" : "hover:text-white hover:bg-purple-300"} rounded-md  px-3 py-2 text-sm font-medium `} aria-current="page"
                         >
                             Find a Member
                         </NavLink>
                         <NavLink
                             to="/projects"
-                            className={({ isActive }) => `${isActive ? "bg-gray-900 text-white" : "hover:text-white hover:bg-gray-700"} rounded-md  px-3 py-2 text-sm font-medium `} aria-current="page"
+                            className={({ isActive }) => `${isActive ? "bg-purple-500 text-white" : "hover:text-white hover:bg-purple-300"} rounded-md  px-3 py-2 text-sm font-medium `} aria-current="page"
                         >
                             Projects
                         </NavLink>

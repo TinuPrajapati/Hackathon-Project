@@ -9,7 +9,7 @@ const features = [
 
 const Features = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {features.map((feature, index) => (
         <div key={index} className="bg-white p-6 rounded-xl shadow-sm transform hover:scale-105 transition-transform">
           {feature.icon}

@@ -1,46 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 function userProfile() {
+  const [user, setUser] = useState({});
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/user`, { withCredentials: true });
+      setUser(response.data)
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getUser()
+  }, [])
   return (
     <div className="min-h-screen" >
       <div className="container mx-auto px-4 py-2" >
         <div className="max-w-full mx-auto backdrop-blur-lg rounded-2xl p-8 text-white" >
           {/* Header Section */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 pr-4 rounded-xl relative">
-            <img
-              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200&h=200"
-              alt="Profile"
-              className="w-32 h-32 rounded-full border-4 border-purple-500 absolute left-5"
-            />
+            <div className="w-32 h-32 rounded-full border-4 border-white absolute left-5">
+              {user?.profileImage ?
+                <img className="size-10 rounded-full" src={user.profileImage} alt="User" />
+                :
+                <div className="w-full h-full custom-gradient text-7xl rounded-full bg-purple-500 flex items-center justify-center text-white font-medium">
+                  {user?.name?.charAt(0)}
+                </div>
+              }
+            </div>
             <img
               src="https://blog.pincel.app/wp-content/uploads/2023/09/0-add-hidden-text-or-symbol-into-AI-photo.jpg"
               alt="Profile"
               className="w-[70%] h-52 rounded-xl"
             />
             <div className="text-center md:text-left border-2 bg-white border-purple-500 h-52 flex flex-col justify-center p-8 rounded-xl">
-              <h1 className="text-3xl font-bold mb-2 text-gray-950">John Developer</h1>
-              <p className="text-xl text-gray-700 mb-4">Senior Software Engineer</p>
-              <p className="text-gray-600 mb-4">Squad: Innovation Team Alpha</p>
+              <h1 className="text-3xl font-bold mb-2 text-gray-950">{user.name}</h1>
+              <p className="text-lg text-gray-700 mb-2">User Id: {user.userId}</p>
+              <p className="text-gray-600 mb-4">Squad: {user?.clan ? user.clan :"none" }</p>
               <div className="flex gap-4 justify-center md:justify-start">
-                <a href="#" aria-label="GitHub" className="text-gray-600  hover:text-gray-800 transition-colors"><Github size={24} /></a>
-                <a href="#" aria-label="LinkedIn" className="text-gray-600  hover:text-gray-800 transition-colors"><Linkedin size={24} /></a>
-                <a href="#" aria-label="Twitter" className="text-gray-600  hover:text-gray-800 transition-colors"><Twitter size={24} /></a>
-                <a href="#" aria-label="Email" className="text-gray-600  hover:text-gray-800 transition-colors"><Mail size={24} /></a>
+                {user?.links?.map((el,index)=>{
+                  <Link to={el?.value} aria-label="GitHub" key={index} className="text-gray-600  hover:text-gray-800 transition-colors">{el?.keys}</Link>
+                })}
+                
               </div>
             </div>
           </div>
           <div className='w-full text-gray-950'>
-            <h1 className='text-3xl mb-5'>About</h1>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolores dolore sequi sapiente sit, fugiat corporis vel voluptatum excepturi tempora omnis, explicabo cum saepe, fugit quo distinctio asperiores maiores nobis?</p>
+            <h1 className='text-3xl mb-5'>About :</h1>
+            <p>{user?.about}</p>
           </div>
-                    <hr className='mt-8 mb-8 text-purple-500' />
+          <hr className='mt-8 mb-8 text-purple-500' />
           {/* Skills Section */}
           <div className="mb-12">
             <h2 className="text-2xl font-bold mb-6 text-gray-950">Skills</h2>
             <div className="flex flex-wrap gap-3">
-              {['React', 'TypeScript', 'Node.js', 'GraphQL', 'AWS', 'Docker', 'Python', 'CI/CD'].map((skill) => (
-                <span key={skill} className="px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors" style={{ background: 'linear-gradient(to bottom right, #d24df7, #7000f0)'}}>
+              {user?.skills?.map((skill) => (
+                <span key={skill} className="px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors" style={{ background: 'linear-gradient(to bottom right, #d24df7, #7000f0)' }}>
                   {skill}
                 </span>
               ))}
