@@ -1,3 +1,4 @@
+import backgroundimage from '../assets/background.webp';
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Twitter, Instagram, ContactRound } from 'lucide-react';
 import axios from 'axios';
@@ -41,7 +42,7 @@ function UserProfile() {
         <div className="max-w-full mx-auto backdrop-blur-lg rounded-2xl p-8 text-white">
           {/* Header Section */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 pr-4 rounded-xl relative">
-            <div className="w-32 h-32 rounded-full border-4 border-white absolute left-5">
+            <div className="w-32 h-32 rounded-full border-4 border-white absolute left-5 z-10">
               {user?.profileImage ? (
                 <img
                   className="w-full h-full rounded-full bg-white"
@@ -55,9 +56,9 @@ function UserProfile() {
               )}
             </div>
             <img
-              src="https://blog.pincel.app/wp-content/uploads/2023/09/0-add-hidden-text-or-symbol-into-AI-photo.jpg"
+              src={backgroundimage}
               alt="Profile Background"
-              className="w-[70%] h-52 rounded-xl"
+              className="w-[70%] h-52 rounded-xl object-cover brightness-125"
             />
             <div className="text-center md:text-left border-2 bg-white border-purple-500 h-52 flex flex-col justify-center p-8 rounded-xl">
               <h1 className="text-3xl font-bold mb-2 text-gray-950">{user.name || "Guest"}</h1>
