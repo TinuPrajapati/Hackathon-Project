@@ -1,5 +1,5 @@
 import express from 'express';
-import { allUsers, getUser, loginUser, logoutUser, registerUser, specificUsers, updateUser } from '../controllers/userController.js';
+import { acceptFriendRequest, addFriend, allUsers, getUser, loginUser, logoutUser, registerUser, specificUsers, updateUser } from '../controllers/userController.js';
 import { protectRoute } from '../middleware/authMiddleware.js';
 import {upload} from "../lib/cloudinary.js"
 const router_user = express.Router();
@@ -13,6 +13,8 @@ router_user.get('/:id',protectRoute,specificUsers)
 router_user.post('/register',registerUser )
 router_user.post('/login',loginUser )
 router_user.post('/logout',protectRoute,logoutUser )
+router_user.post("/request",protectRoute,addFriend );
+router_user.post("/accept",protectRoute,acceptFriendRequest );
 
 // put request
 router_user.put('/update_user', protectRoute, upload.single("image"), updateUser);

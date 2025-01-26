@@ -1,23 +1,25 @@
 import backgroundimage from '../assets/background.webp';
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Twitter, Instagram, ContactRound } from 'lucide-react';
+import { Github, Linkedin, Twitter, Instagram, ContactRound, InfoIcon } from 'lucide-react';
 import axios from 'axios';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import NewAddProject from './NewAddProject'; // Import the NewAddProject component
 import Swal from 'sweetalert2'
+import FriendRequestButton from './AddFriend';
 
 function UserProfile() {
   const { id } = useParams();
   const loaction = useLocation();
   const [user, setUser] = useState({});
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [send, setSend] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     link: "",
     mode: "",
-    image: "https://img.freepik.com/free-photo/project-plan-program-activity-solution-strategy-concept_53876-15827.jpg?t=st=1737881778~exp=1737885378~hmac=6a6736b01fc18ad20b1bdb75ba24cabd231a46cea0f19384eab463911d0d013d&w=740",
-  }); // State to manage dialog visibility
+    image: "",
+  });
 
   const getUser = async () => {
     try {
@@ -34,7 +36,6 @@ function UserProfile() {
         );
       }
       setUser(response.data);
-      console.log(response.data)
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -71,6 +72,13 @@ function UserProfile() {
           getUser();
         }
       });
+      setFormData({
+        title: "",
+        description: "",
+        link: "",
+        mode: "",
+        image: "",
+      })
     } catch (error) {
       const message = error.response?.data?.message || "Failed to add project. Please try again.";
       console.log(error);
@@ -106,6 +114,15 @@ function UserProfile() {
                 </div>
               )}
             </div>
+            {loaction.pathname !== "/profile" &&
+              <FriendRequestButton friendId={user._id} />
+              // <button
+
+              //   className={`${send?"hidden":"block"}px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 absolute z-10 right-[32%]`}
+              // >x
+              //   Add New Project
+              // </button>
+            }
             <img
               src={backgroundimage}
               alt="Profile Background"
@@ -132,27 +149,30 @@ function UserProfile() {
 
           {/* Skills Section */}
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6 text-gray-950">Skills</h2>
-            <div className="flex flex-wrap gap-3">
-              {user?.skills?.length > 0 ? (
-                user.skills.map((skill) => (
+            <h2 className="text-2xl font-bold mb-2 text-gray-950">Skills</h2>
+            {user?.skills?.length > 0 ?
+              <div className="flex flex-wrap gap-3">
+                {user.skills.map((skill) => (
                   <span
                     key={skill}
                     className="px-4 py-2 rounded-full bg-purple-600 text-white"
                   >
                     {skill}
                   </span>
-                ))
-              ) : (
-                <p>No skills added yet.</p>
+                ))}
+              </div>
+              : (
+                <div className="flex justify-center items-center gap-3 h-14 bg-white rounded-xl text-xl text-black">
+                  <InfoIcon />
+                  <p>No Skills added yet.</p>
+                </div>
               )}
-            </div>
           </div>
 
           {/* Projects Section */}
-          <div className="mb-12">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold mb-6 text-gray-950">Projects</h2>
+          <div className="mb-5">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-2xl font-bold text-gray-950">Projects</h2>
               {loaction.pathname == "/profile" && <button
                 onClick={() => setIsDialogOpen(true)}
                 className="px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600"
@@ -160,9 +180,9 @@ function UserProfile() {
                 Add New Project
               </button>}
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {user.projects?.length > 0 ? (
-                user.projects.map((project) => (
+            {user.projects?.length > 0 ?
+              <div className="grid md:grid-cols-2 gap-6 w-full">
+                {user.projects.map((project) => (
                   <div
                     key={project.title}
                     className="bg-white/5 rounded-xl overflow-hidden hover:bg-white/10 transition-colors border-purple-500 border-4"
@@ -190,11 +210,14 @@ function UserProfile() {
                       </a>
                     </div>
                   </div>
-                ))
-              ) : (
-                <p>No projects added yet.</p>
+                ))}
+              </div>
+              : (
+                <div className="flex justify-center items-center gap-3 h-20 bg-white rounded-xl text-xl text-black">
+                  <InfoIcon />
+                  <p>No projects added yet.</p>
+                </div>
               )}
-            </div>
           </div>
         </div>
       </div>
@@ -202,7 +225,7 @@ function UserProfile() {
       {/* Dialog Box for Adding a New Project */}
       {isDialogOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white rounded-lg h-max shadow-lg p-4 w-full max-w-lg relative">
+          <div className="bg-gray-200 rounded-lg h-max shadow-lg p-4 w-full max-w-lg relative">
             {/* Cross Button */}
             <button
               onClick={() => setIsDialogOpen(false)}

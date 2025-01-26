@@ -33,6 +33,8 @@ function Login() {
           navigate("/")
         }
       });
+      setEmail("")
+      setPassword("")
     } catch (error) {
       // Error handling
       const message = error.response?.data?.message || "Login failed. Please try again.";

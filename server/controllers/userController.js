@@ -216,4 +216,63 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const addFriend = async (req, res) => {
+  const { friendId } = req.body;
+  const {userId} = req.user;
+  if (!userId || !friendId) {
+    return res.status(400).json({ success: false, message: "Invalid request data" });
+  }
 
+  try {
+    const user = await User.findById(userId);
+    const friend = await User.findById(friendId);
+
+    if (!user || !friend) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    if (friend.friendRequests.includes(userId)) {
+      return res.status(400).json({ success: false, message: "Request already sent" });
+    }
+
+    friend.friendRequests.push(userId);
+    await friend.save();
+
+    res.json({ success: true, message: "Friend request sent successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}
+
+export const acceptFriendRequest = async (req, res) => {
+  const { friendId } = req.body;
+  const {userId} = req.user;
+
+  try {
+    const user = await User.findById(userId);
+    const friend = await User.findById(friendId);
+
+    if (!user || !friend) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Check if request exists
+    if (!user.friendRequests.includes(friendId)) {
+      return res.status(400).json({ success: false, message: "No friend request found" });
+    }
+
+    // Add each other as friends
+    user.friends.push(friendId);
+    friend.friends.push(userId);
+
+    // Remove request
+    user.friendRequests = user.friendRequests.filter((id) => id.toString() !== friendId);
+    
+    await user.save();
+    await friend.save();
+
+    res.json({ success: true, message: "Friend request accepted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}

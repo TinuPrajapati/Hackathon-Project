@@ -7,7 +7,7 @@ export const createProject = async (req, res) => {
   try {
     const { title, description, link, mode } = req.body;
     const user = req.user.userId;
-    let path = ""
+    let path = "https://img.freepik.com/free-photo/project-plan-program-activity-solution-strategy-concept_53876-15827.jpg?t=st=1737881778~exp=1737885378~hmac=6a6736b01fc18ad20b1bdb75ba24cabd231a46cea0f19384eab463911d0d013d&w=740"
     let filename = ""
     if(req.file){
       path = req.file.path
