@@ -108,7 +108,7 @@ const Header = () => {
 
                 <div className="hidden sm:block">
                     <div className="flex space-x-4">
-                        <NavLink to="/" className={({ isActive }) => `${isActive ? "bg-purple-500 text-white" : "hover:text-white hover:bg-purple-300"} rounded-md  px-3 py-2 text-sm font-medium `}>
+                        <NavLink to="/home" className={({ isActive }) => `${isActive ? "bg-purple-500 text-white" : "hover:text-white hover:bg-purple-300"} rounded-md  px-3 py-2 text-sm font-medium `}>
                             Squads
                         </NavLink>
                         <NavLink to="/findmember" className={({ isActive }) => `${isActive ? "bg-purple-500 text-white" : "hover:text-white hover:bg-purple-300"} rounded-md  px-3 py-2 text-sm font-medium `}>
