@@ -5,8 +5,9 @@ const Headerlanding = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-transparent p-4">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <div className="text-white font-bold text-xl">
-          <img src="/path-to-your-logo.png" alt="Logo" className="h-8" />
+        <div className="flex items-center space-x-2">
+          <Brain className="h-8 w-8 text-purple-600" />
+          <span className="text-xl font-bold text-purple-800">BrainSquads</span>
         </div>
 
         {/* Hamburger menu for mobile */}
