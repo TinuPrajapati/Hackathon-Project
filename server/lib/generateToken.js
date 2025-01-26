@@ -9,9 +9,6 @@ const generateToken = (user,res) => {
   );
 
   res.cookie(process.env.COOKIE_SECRET, token, {
-    httpOnly: false,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV == "production", // Secure in production
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
