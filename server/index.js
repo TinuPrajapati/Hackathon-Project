@@ -14,6 +14,8 @@ import router_project from './routes/projectRoutes.js';
 import router_msg from './routes/messageRoutes.js';
 import mcqRoutes from './routes/mcqRoutes.js';
 import squadRoutes from './routes/squadRoutes.js';
+import { protectRoute } from './middleware/authMiddleware.js';
+import { check } from './controllers/userController.js';
 
 const app = express();
 // Middleware
@@ -35,6 +37,8 @@ app.use(
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
+app.get("/check",protectRoute,check)
 
 // Routes
 app.use('/api/user', router_user);

@@ -62,6 +62,9 @@ export const registerUser = async (req, res) => {
   }
 };
 
+export const check = async(req,res)=>{
+  res.status(200).json({login:true})
+}
 
 export const getUser = async (req, res) => {
   try {
