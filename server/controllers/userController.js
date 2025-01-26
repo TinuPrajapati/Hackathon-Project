@@ -54,8 +54,8 @@ export const registerUser = async (req, res) => {
     await newUser.save();
 
     // Generate token and set cookie
-    generateToken(newUser, res);
-    res.status(201).json({ message: "User registered successfully" });
+    const token = generateToken(newUser, res);
+    res.status(201).json({ message: "User registered successfully",token });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Internal Server Error" });
@@ -155,8 +155,9 @@ export const loginUser = async (req, res) => {
     }
 
     // Generate token and set cookie
-    generateToken(user, res);
-    res.status(200).json({ message: "Login successful" });
+    const token = generateToken(user, res);
+    
+    res.status(200).json({ message: "Login successful",token });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Internal Server error" });

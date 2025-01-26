@@ -1,8 +1,9 @@
 import React from "react";
 import background from '../assets/background.png'
 import char from '../assets/OIP.png'
+import { Link } from "react-router-dom";
 
-const HeroSection = () => {
+const Index = () => {
   return (
     <div className="px-30 bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 flex items-center justify-between h-screen p-16 rounded-none shadow-xl">
       <div className="flex flex-col items-start space-y-6 max-w-xl">
@@ -16,9 +17,9 @@ const HeroSection = () => {
         <p className="text-xl text-white opacity-80 max-w-lg">
           Discover endless opportunities for collaboration and growth. Join our platform to connect with like-minded individuals and unlock your potential.
         </p>
-        <button className="bg-yellow-400 hover:bg-yellow-500 text-white py-3 px-8 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105" style={{  backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <Link to="/login" className="bg-yellow-400 hover:bg-yellow-500 text-white py-3 px-8 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105" style={{  backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           Get Started
-        </button>
+        </Link>
       </div>
       <div className="w-1/2 flex justify-center items-center">
         <img
@@ -31,4 +32,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default Index;

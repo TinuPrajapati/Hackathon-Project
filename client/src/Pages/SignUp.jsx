@@ -3,6 +3,7 @@ import { Mail, Lock, ArrowRight, Brain, User, Phone, MapPin, Eye, EyeOff } from 
 import axios from "axios";
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'
 
 function SignUp() {
   const navigate = useNavigate()
@@ -48,7 +49,7 @@ function SignUp() {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials:true
+          withCredentials: true
         }
       );
       Swal.fire({
@@ -56,7 +57,8 @@ function SignUp() {
         icon: "success"
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate("/")
+          Cookies.set('name', response.data.token, { expires: 7 })
+          navigate("/home")
         }
       });
       setFormData({

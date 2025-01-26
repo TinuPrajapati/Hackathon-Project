@@ -1,55 +1,54 @@
 import React from 'react';
-import { MessageSquare, UserPlus } from 'lucide-react';
-import {Link} from 'react-router-dom';
+import { MessageSquare, UserPlus, Award } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function ProfileCard({ profile }) {
-  
   return (
-    <Link to={`/user_profile/${profile.userId}`} className="bg-gray-50 rounded-2xl shadow-md p-6 transition-transform transform hover:scale-105 hover:shadow-lg">
-      <div className="flex items-center mb-6 gap-4">
-        <div className="relative w-28 h-28">
+    <Link to={`/user_profile/${profile.userId}`} className="bg-white rounded-xl shadow-lg p-6 transition-all hover:shadow-xl">
+      <div className="flex gap-6 mb-4">
+        <div className="relative flex-shrink-0">
           <img
             src={profile.profileImage}
             alt={profile.name}
-            className="w-full h-full rounded-full object-cover border-4 border-purple-200"
+            className="w-24 h-24 rounded-full object-cover"
           />
-          <span
-            className={`absolute bottom-2 right-2 w-5 h-5 rounded-full border-2 border-white shadow-md ${
-              profile.isOnline ? 'bg-green-400' : 'bg-gray-400'
-            }`}
-          ></span>
+          <div className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white ${
+            profile.isOnline ? 'bg-green-500' : 'bg-gray-400'
+          }`} />
         </div>
-        <div>
-          <h3 className="text-2xl font-bold text-gray-800">{profile.name}</h3>
-          <p className="text-sm text-gray-500">{profile.squad || 'No Group'}</p>
+        
+        <div className="flex-1">
+          <h3 className="text-xl font-semibold text-gray-800">{profile.name}</h3>
+          <p className="text-gray-600">{profile.squad || 'No Group'}</p>
           {profile.seekingGroup && (
-            <span className="mt-2 bg-purple-100 text-purple-600 text-xs font-medium py-1 px-3 rounded-full">
+            <div className="bg-purple-100 text-[#7000f0] text-sm py-1 px-3 rounded-full inline-block mt-2">
               Seeking Group
-            </span>
+            </div>
           )}
         </div>
       </div>
 
-      <p className="text-left text-gray-700 mb-4">{profile.about}</p>
+      <p className="text-gray-700 mb-4">{profile.about}</p>
 
-      <div className="flex flex-wrap justify-center gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {profile.skills.map((tag) => (
           <span
             key={tag}
-            className="bg-purple-200 text-purple-800 text-xs font-medium py-1 px-3 rounded-full"
+            className="bg-[#d24df7] bg-opacity-10 text-white text-sm py-1 px-3 rounded-full"
           >
             {tag}
           </span>
         ))}
       </div>
 
-      <div className="flex justify-center gap-4">
-        <button className="flex items-center justify-center gap-2 bg-purple-600 text-white text-sm font-medium py-2 px-6 rounded-full shadow-md hover:bg-purple-500 transition-colors">
-          <UserPlus className="w-5 h-5" />
+
+      <div className="flex gap-2">
+        <button className="flex-1 bg-[#7000f0] text-white py-2 px-4 rounded-lg hover:bg-[#6000d0] transition-colors flex items-center justify-center gap-2">
+          <UserPlus className="w-4 h-4" />
           Connect
         </button>
-        <button className="flex items-center justify-center gap-2 border border-purple-600 text-purple-600 text-sm font-medium py-2 px-6 rounded-full shadow-md hover:bg-purple-600 hover:text-white transition-colors">
-          <MessageSquare className="w-5 h-5" />
+        <button className="flex-1 border border-[#7000f0] text-[#7000f0] py-2 px-4 rounded-lg hover:bg-[#7000f0] hover:text-white transition-colors flex items-center justify-center gap-2">
+          <MessageSquare className="w-4 h-4" />
           Message
         </button>
       </div>

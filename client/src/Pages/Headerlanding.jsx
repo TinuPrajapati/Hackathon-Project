@@ -1,4 +1,6 @@
+import { Brain } from "lucide-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Headerlanding = () => {
   return (
@@ -21,15 +23,15 @@ const Headerlanding = () => {
 
         {/* Links (Desktop version) */}
         <nav className="hidden lg:flex space-x-6">
-          <a href="#home" className="text-white    font-bold p-2 rounded-lg hover:bg-yellow-300 hover:text-purple-500 hover:border hover:border-2 hover:border-white">Home</a>
-          <a href="#about" className="text-white   font-bold p-2 rounded-lg hover:bg-yellow-300 hover:text-purple-500 hover:border hover:border-2 hover:border-white">About</a>
-          <a href="#contact" className="text-white font-bold p-2 rounded-lg hover:bg-yellow-300 hover:text-purple-500 hover:border hover:border-2 hover:border-white">Contact</a>
+          <Link to="/" className="text-white    font-bold p-2 rounded-lg hover:bg-yellow-300 hover:text-purple-500 hover:border-2 hover:border-white">Home</Link>
+          <Link to="/about" className="text-white   font-bold p-2 rounded-lg hover:bg-yellow-300 hover:text-purple-500 hover:border-2 hover:border-white">About</Link>
+          <Link to="/contact" className="text-white font-bold p-2 rounded-lg hover:bg-yellow-300 hover:text-purple-500 hover:border-2 hover:border-white">Contact</Link>
         </nav>
 
         {/* Get Started Button */}
-        <button className="bg-transparent border border-2 border-white text-white px-6 py-2 rounded-md hover:bg-yellow-300 hover:text-purple-500 transition duration-200 hidden lg:block">
+        <Link to="/login" className="bg-transparent border-2 border-white text-white px-6 py-2 rounded-md hover:bg-yellow-300 hover:text-purple-500 transition duration-200 hidden lg:block">
           Get Started
-        </button>
+        </Link>
       </div>
 
       {/* Mobile Navigation (Hidden on large screens) */}
