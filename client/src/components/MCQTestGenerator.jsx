@@ -6,14 +6,13 @@ const Loader = () => (
   </div>
 );
 
-const MCQTestGenerator = () => {
+const MCQTestGenerator = ({ onGenerate }) => {
   const [topics, setTopics] = useState(["", "", "", ""]);
   const [difficulty, setDifficulty] = useState("easy");
   const [questions, setQuestions] = useState([]);
   const [showTest, setShowTest] = useState(false);
-  const [answers, setAnswers] = useState({});
-  const [results, setResults] = useState(null);
-  const [loading, setLoading] = useState(false); // Loader state
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleTopicChange = (index, value) => {
     const newTopics = [...topics];
@@ -21,59 +20,61 @@ const MCQTestGenerator = () => {
     setTopics(newTopics);
   };
 
-  const handleAnswerChange = (questionIndex, selectedOption) => {
-    setAnswers({ ...answers, [questionIndex]: selectedOption });
-  };
-
   const generateTest = async () => {
-    setLoading(true); // Show loader
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate-mcq`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ topics, difficulty }),
-      });
-      const data = await response.json();
-      setQuestions(data.questions || []);
-      setShowTest(true);
-      setResults(null); // Reset results when generating a new test
-    } catch (error) {
-      console.error("Error generating test:", error);
-    } finally {
-      setLoading(false); // Hide loader
-    }
-  };
+    setLoading(true);
+    setErrorMessage("");
 
-  const submitTest = async () => {
-    setLoading(true); // Show loader
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/submit-answers`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ answers: Object.values(answers), questions }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/generate-mcq`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ topics, difficulty }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.statusText}`);
+      }
+
       const data = await response.json();
-      setResults(data); // Store results after submission
+
+      const generatedTest = {
+        topics,
+        difficulty,
+        questions: data.questions || [],
+      };
+
+      setQuestions(generatedTest.questions);
+      setShowTest(true);
+
+      if (onGenerate) {
+        onGenerate(generatedTest);
+      }
     } catch (error) {
-      console.error("Error submitting test:", error);
+      console.error("Error generating test:", error.message);
+      setErrorMessage("Failed to generate the test. Please try again.");
     } finally {
-      setLoading(false); // Hide loader
+      setLoading(false);
     }
   };
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold text-center mb-8 text-gray-800">MCQ Test Generator</h1>
+      <h1 className="text-2xl font-bold text-center mb-8 text-gray-800">
+        MCQ Test Generator
+      </h1>
 
-      {loading && <Loader />} {/* Show loader if loading */}
+      {loading && <Loader />}
 
       {!loading && !showTest && (
         <div className="p-6 border border-gray-300 rounded-lg mb-6 bg-white shadow">
-          <h2 className="text-xl font-semibold mb-6 text-gray-700">Enter Topics and Difficulty</h2>
+          <h2 className="text-xl font-semibold mb-6 text-gray-700">
+            Enter Topics and Difficulty
+          </h2>
 
           {topics.map((topic, index) => (
             <div key={index} className="mb-4">
@@ -112,6 +113,10 @@ const MCQTestGenerator = () => {
             </select>
           </div>
 
+          {errorMessage && (
+            <p className="text-red-500 text-center mb-4">{errorMessage}</p>
+          )}
+
           <button
             onClick={generateTest}
             className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -123,7 +128,9 @@ const MCQTestGenerator = () => {
 
       {!loading && showTest && (
         <div className="p-6 border border-gray-300 rounded-lg bg-white shadow">
-          <h2 className="text-xl font-semibold mb-6 text-gray-700">Your MCQ Test</h2>
+          <h2 className="text-xl font-semibold mb-6 text-gray-700">
+            Generated MCQ Test
+          </h2>
           {questions.map((question, index) => (
             <div key={index} className="mb-6">
               <p className="font-semibold mb-4 text-gray-800">
@@ -136,9 +143,8 @@ const MCQTestGenerator = () => {
                     name={`question-${index}`}
                     id={`question-${index}-option-${i}`}
                     value={option}
-                    checked={answers[index] === option}
-                    onChange={() => handleAnswerChange(index, option)}
                     className="mr-2"
+                    disabled
                   />
                   <label
                     htmlFor={`question-${index}-option-${i}`}
@@ -150,20 +156,6 @@ const MCQTestGenerator = () => {
               ))}
             </div>
           ))}
-
-          <button
-            onClick={submitTest}
-            className="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 mt-4"
-          >
-            Submit Test
-          </button>
-        </div>
-      )}
-
-      {!loading && results && (
-        <div className="p-6 border border-gray-300 rounded-lg mt-6 bg-white shadow">
-          <h2 className="text-xl font-semibold mb-6 text-gray-700">Test Results</h2>
-          <p className="font-bold text-gray-800 mb-4">Your Score: {results.score}</p>
         </div>
       )}
     </div>

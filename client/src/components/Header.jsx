@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Bell } from 'lucide-react';
+import { Bell,Brain } from 'lucide-react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -72,7 +72,11 @@ const Header = () => {
         <header className={`sticky top-2 z-10 h-[10vh] w-full flex items-center justify-center transition-all duration-300`}>
             <div className='w-[90%] h-full bg-white/80 backdrop-blur-xl flex items-center justify-between px-3 rounded-full shadow-lg'>
                 <Link to="/" className="flex shrink-0 items-center">
-                    <img className="h-8 w-auto" src={logo} alt="Your Company" />
+                <div className="flex items-center space-x-2">
+              <Brain className="h-8 w-8 text-purple-600" />
+              <span className="text-xl font-bold text-purple-800">BrainSquads</span>
+            </div>
+                    {/* <img className="h-8 w-auto" src={logo} alt="Your Company" /> */}
                 </Link>
 
                 <div className="hidden sm:block">

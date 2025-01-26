@@ -13,6 +13,7 @@ import router_project from './routes/projectRoutes.js';
 // import { app, server } from './lib/socket.js';
 import router_msg from './routes/messageRoutes.js';
 import mcqRoutes from './routes/mcqRoutes.js';
+import squadRoutes from './routes/squadRoutes.js';
 
 const app = express();
 // Middleware
@@ -42,6 +43,7 @@ app.use('/api/clan', router_clan);
 app.use('/api/projects', router_project);
 app.use('/api/messages', router_msg);
 app.use('/api', mcqRoutes);
+app.use("/api/squads", squadRoutes);
 
 // Start Server
 app.listen(process.env.PORT || 5000, () => {
