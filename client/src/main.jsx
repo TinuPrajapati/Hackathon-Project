@@ -25,7 +25,6 @@ const router = createBrowserRouter(
       <Route path="setting" element={<Setting/>}/>
       <Route path="findmember" element={<FindMember/>}/>
       <Route path="mcqtestgenerator" element={<MCQTestGenerator/>}/>
-  
     </Route>
   )
 )
