@@ -12,6 +12,7 @@ import Login from './Pages/Login.jsx'
 import SignUp from './Pages/SignUp.jsx'
 import Setting from "./Pages/Setting.jsx"
 import FindMember from "./Pages/FindMember.jsx"
+import MCQTestGenerator from './components/MCQTestGenerator.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       <Route path="signup" element={<SignUp/>} />
       <Route path="setting" element={<Setting/>}/>
       <Route path="findmember" element={<FindMember/>}/>
+      <Route path="mcqtestgenerator" element={<MCQTestGenerator/>}/>
     </Route>
   )
 )
