@@ -37,6 +37,7 @@ const Header = () => {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/user`, { withCredentials: true });
             setUser(response.data);
             setFriendRequests(response.data.friendRequests || []);
+            // console.log(response.data.friendRequests)
         } catch (error) {
             console.log(error);
         }
@@ -48,17 +49,18 @@ const Header = () => {
 
     const handleAcceptRequest = async (requestId) => {
         try {
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/friends/accept`, { requestId }, { withCredentials: true });
+            const response =await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/accept`, { requestId }, { withCredentials: true });
             setFriendRequests(friendRequests.filter(req => req._id !== requestId));
+            console.log(friendRequests.filter(req => req._id !== requestId))
             Swal.fire("Accepted!", "Friend request accepted.", "success");
         } catch (error) {
-            console.log(error);
+            console.log(error.response.data);
         }
     };
 
     const handleIgnoreRequest = async (requestId) => {
         try {
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/friends/ignore`, { requestId }, { withCredentials: true });
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/ignore`, { requestId }, { withCredentials: true });
             setFriendRequests(friendRequests.filter(req => req._id !== requestId));
             Swal.fire("Ignored!", "Friend request ignored.", "info");
         } catch (error) {

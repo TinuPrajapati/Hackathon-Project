@@ -10,10 +10,11 @@ import router_user from './routes/userRoutes.js';
 import router_reports from './routes/reportsRoutes.js';
 import router_clan from './routes/clanRoutes.js';
 import router_project from './routes/projectRoutes.js';
-import { app, server } from './lib/socket.js';
+// import { app, server } from './lib/socket.js';
 import router_msg from './routes/messageRoutes.js';
 import mcqRoutes from './routes/mcqRoutes.js';
 
+const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
@@ -43,6 +44,6 @@ app.use('/api/messages', router_msg);
 app.use('/api', mcqRoutes);
 
 // Start Server
-server.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT || 5000}`);
 });

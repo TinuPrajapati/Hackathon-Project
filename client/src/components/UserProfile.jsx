@@ -29,15 +29,18 @@ function UserProfile() {
           `${import.meta.env.VITE_BACKEND_URL}/api/user/${id}`,
           { withCredentials: true }
         );
+        setUser(response.data.user);
+        setSend(response.data.action)
       } else {
         response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/user/user`,
           { withCredentials: true }
         );
+        setUser(response.data);
       }
-      setUser(response.data);
+      console.group(response.data)
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error fetching user data:", error.response.data);
     }
   };
   const handleSubmit = async (e) => {
@@ -114,14 +117,8 @@ function UserProfile() {
                 </div>
               )}
             </div>
-            {loaction.pathname !== "/profile" &&
+            {(loaction.pathname !== "/profile" && send==true ) &&
               <FriendRequestButton friendId={user._id} />
-              // <button
-
-              //   className={`${send?"hidden":"block"}px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 absolute z-10 right-[32%]`}
-              // >x
-              //   Add New Project
-              // </button>
             }
             <img
               src={backgroundimage}

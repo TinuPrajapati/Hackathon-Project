@@ -8,13 +8,13 @@ const FriendRequestButton = ({ friendId }) => {
   const sendFriendRequest = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/request`, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/request`, {
         friendId,
       },{
         withCredentials:true
       }
     );
-
+        console.log(response)
       if (response.data.success) {
         setRequestSent(true);
       } else {
