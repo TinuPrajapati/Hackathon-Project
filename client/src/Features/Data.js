@@ -8,7 +8,6 @@ export const mockProfiles = [
     tags: ['Designer', 'Prototyping', 'User Research'],
     isOnline: true,
     seekingGroup: false,
-    achievements: ['Group Creator', 'Design Expert'],
     location: 'San Francisco',
     lastActive: '2024-03-15T10:30:00Z'
   },
@@ -20,7 +19,6 @@ export const mockProfiles = [
     tags: ['Coder', 'React', 'Node.js'],
     isOnline: true,
     seekingGroup: true,
-    achievements: ['Code Ninja'],
     location: 'New York',
     lastActive: '2024-03-15T09:45:00Z'
   },
@@ -33,7 +31,6 @@ export const mockProfiles = [
     tags: ['Product', 'Strategy', 'Leadership'],
     isOnline: false,
     seekingGroup: false,
-    achievements: ['Team Leader', 'Product Guru'],
     location: 'London',
     lastActive: '2024-03-14T18:20:00Z'
   }

@@ -5,6 +5,8 @@ const MCQTestGenerator = () => {
   const [difficulty, setDifficulty] = useState("easy");
   const [questions, setQuestions] = useState([]);
   const [showTest, setShowTest] = useState(false);
+  const [answers, setAnswers] = useState({});
+  const [results, setResults] = useState(null);
 
   const handleTopicChange = (index, value) => {
     const newTopics = [...topics];
@@ -12,9 +14,13 @@ const MCQTestGenerator = () => {
     setTopics(newTopics);
   };
 
+  const handleAnswerChange = (questionIndex, selectedOption) => {
+    setAnswers({ ...answers, [questionIndex]: selectedOption });
+  };
+
   const generateTest = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/generate-mcq", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate-mcq`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,81 +30,141 @@ const MCQTestGenerator = () => {
       const data = await response.json();
       setQuestions(data.questions || []);
       setShowTest(true);
+      setResults(null); // Reset results when generating a new test
     } catch (error) {
       console.error("Error generating test:", error);
     }
   };
 
+  const submitTest = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/submit-answers`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ answers: Object.values(answers), questions }),
+      });
+      const data = await response.json();
+      setResults(data); // Store results after submission
+    } catch (error) {
+      console.error("Error submitting test:", error);
+    }
+  };
+
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 style={{ fontSize: "24px", fontWeight: "bold", textAlign: "center", marginBottom: "20px" }}>MCQ Test Generator</h1>
+    <div className="p-8 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold text-center mb-8 text-gray-800">MCQ Test Generator</h1>
 
-      <div style={{ padding: "20px", border: "1px solid #ccc", borderRadius: "8px", marginBottom: "20px" }}>
-        <h2 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "20px" }}>Enter Topics and Difficulty</h2>
+      {!showTest && (
+        <div className="p-6 border border-gray-300 rounded-lg mb-6 bg-white shadow">
+          <h2 className="text-xl font-semibold mb-6 text-gray-700">Enter Topics and Difficulty</h2>
 
-        {topics.map((topic, index) => (
-          <div key={index} style={{ marginBottom: "16px" }}>
-            <label htmlFor={`topic-${index}`} style={{ display: "block", marginBottom: "8px", fontWeight: "bold" }}>
-              Topic {index + 1}:
+          {topics.map((topic, index) => (
+            <div key={index} className="mb-4">
+              <label
+                htmlFor={`topic-${index}`}
+                className="block mb-2 font-medium text-gray-700"
+              >
+                Topic {index + 1}:
+              </label>
+              <input
+                id={`topic-${index}`}
+                value={topic}
+                onChange={(e) => handleTopicChange(index, e.target.value)}
+                placeholder={`Enter topic ${index + 1}`}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+          ))}
+
+          <div className="mb-4">
+            <label
+              htmlFor="difficulty"
+              className="block mb-2 font-medium text-gray-700"
+            >
+              Difficulty Level:
             </label>
-            <input
-              id={`topic-${index}`}
-              value={topic}
-              onChange={(e) => handleTopicChange(index, e.target.value)}
-              placeholder={`Enter topic ${index + 1}`}
-              style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-            />
+            <select
+              id="difficulty"
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
           </div>
-        ))}
 
-        <div style={{ marginBottom: "16px" }}>
-          <label htmlFor="difficulty" style={{ display: "block", marginBottom: "8px", fontWeight: "bold" }}>
-            Difficulty Level:
-          </label>
-          <select
-            id="difficulty"
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+          <button
+            onClick={generateTest}
+            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
+            Generate Test
+          </button>
         </div>
-
-        <button
-          onClick={generateTest}
-          style={{ width: "100%", padding: "10px", backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
-        >
-          Generate Test
-        </button>
-      </div>
+      )}
 
       {showTest && (
-        <div style={{ padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
-          <h2 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "20px" }}>Your MCQ Test</h2>
+        <div className="p-6 border border-gray-300 rounded-lg bg-white shadow">
+          <h2 className="text-xl font-semibold mb-6 text-gray-700">Your MCQ Test</h2>
           {questions.map((question, index) => (
-            <div key={index} style={{ marginBottom: "20px" }}>
-              <p style={{ fontWeight: "bold", marginBottom: "10px" }}>
+            <div key={index} className="mb-6">
+              <p className="font-semibold mb-4 text-gray-800">
                 {index + 1}. {question.question}
               </p>
               {question.options.map((option, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+                <div key={i} className="flex items-center mb-2">
                   <input
                     type="radio"
                     name={`question-${index}`}
                     id={`question-${index}-option-${i}`}
-                    value={i}
-                    style={{ marginRight: "8px" }}
+                    value={option}
+                    checked={answers[index] === option}
+                    onChange={() => handleAnswerChange(index, option)}
+                    className="mr-2"
                   />
-                  <label htmlFor={`question-${index}-option-${i}`} style={{ cursor: "pointer" }}>
+                  <label
+                    htmlFor={`question-${index}-option-${i}`}
+                    className="text-gray-700 cursor-pointer"
+                  >
                     {option}
                   </label>
                 </div>
               ))}
             </div>
           ))}
+
+          <button
+            onClick={submitTest}
+            className="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 mt-4"
+          >
+            Submit Test
+          </button>
+        </div>
+      )}
+
+      {results && (
+        <div className="p-6 border border-gray-300 rounded-lg mt-6 bg-white shadow">
+          <h2 className="text-xl font-semibold mb-6 text-gray-700">Test Results</h2>
+          <p className="font-bold text-gray-800 mb-4">Your Score: {results.score}</p>
+          {/* {results.results.map((result, index) => (
+            <div key={index} className="mb-6">
+              <p>
+                <strong>Question {index + 1}:</strong> {result.question}
+              </p>
+              <p>
+                <strong>Your Answer:</strong> {result.selectedAnswer || "No answer selected"}
+              </p>
+              <p>
+                <strong>Correct Answer:</strong> {result.correctAnswer}
+              </p>
+              <p className={`mt-2 ${result.isCorrect ? "text-green-600" : "text-red-600"}`}>
+                {result.isCorrect ? "Correct" : "Incorrect"}
+              </p>
+            </div>
+          ))} */}
         </div>
       )}
     </div>
