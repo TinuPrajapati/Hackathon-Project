@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Users, Sliders } from 'lucide-react';
 import { ProfileCard } from '../components/ProfileCard';
 import { SearchBar } from '../components/SearchBar';
@@ -8,24 +8,23 @@ import Cookies from 'js-cookie'
 function FindMember() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('activity');
-  const [showOnlineOnly, setShowOnlineOnly] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [userData, setUserData] = useState([]); // To store the users fetched from API
 
   const allTags = Array.from(
-    new Set(mockProfiles.flatMap((profile) => profile.tags))
+    new Set(userData.flatMap((profile) => profile.skills))
   );
 
-  const filteredProfiles = mockProfiles
+  const filteredProfiles = userData
     .filter((profile) => {
-      if (showOnlineOnly && !profile.isOnline) return false;
-      if (selectedTags.length > 0 && !profile.tags.some((tag) => selectedTags.includes(tag)))
+      if (selectedTags.length > 0 && !profile.skills.some((tag) => selectedTags.includes(tag)))
         return false;
       if (searchQuery) {
         const searchLower = searchQuery.toLowerCase();
         return (
           profile.name.toLowerCase().includes(searchLower) ||
-          profile.bio.toLowerCase().includes(searchLower) ||
-          profile.tags.some((tag) => tag.toLowerCase().includes(searchLower))
+          profile.about.toLowerCase().includes(searchLower) ||
+          profile.skills.some((tag) => tag.toLowerCase().includes(searchLower))
         );
       }
       return true;
@@ -57,9 +56,9 @@ function FindMember() {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mt-10">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#7000f0] to-[#d24df7] text-white py-16 px-4">
+      <div className="bg-gradient-to-r from-[#7000f0] to-[#d24df7] text-white py-16 px-4 rounded-3xl">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
             <Users className="w-12 h-12" />
@@ -92,18 +91,8 @@ function FindMember() {
             <option value="name">Sort by Name</option>
           </select>
 
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={showOnlineOnly}
-              onChange={(e) => setShowOnlineOnly(e.target.checked)}
-              className="rounded text-[#7000f0] focus:ring-[#7000f0]"
-            />
-            Online Only
-          </label>
-
           <div className="flex flex-wrap gap-2">
-            {allTags.map((tag) => (
+            {allTags?.map((tag) => (
               <button
                 key={tag}
                 onClick={() =>
@@ -125,26 +114,25 @@ function FindMember() {
         </div>
 
         {/* Featured Section */}
-        {filteredProfiles.some((p) => p.achievements.length > 0) && (
+        {/* {filteredProfiles.some((p) => p.achievements.length > 0) && (
           <div className="mt-12">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Featured Members</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProfiles
-                .filter((p) => p.achievements.length > 0)
                 .slice(0, 3)
                 .map((profile) => (
                   <ProfileCard key={profile.id} profile={profile} />
                 ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* All Profiles */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">All Members</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProfiles.map((profile) => (
-              <ProfileCard key={profile.id} profile={profile} />
+              <ProfileCard key={profile._id} profile={profile} />
             ))}
           </div>
         </div>

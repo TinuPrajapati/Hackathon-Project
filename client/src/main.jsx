@@ -15,13 +15,18 @@ import FindMember from "./Pages/FindMember.jsx"
 import MCQTestGenerator from './components/MCQTestGenerator.jsx'
 import CreateSquad from './components/CreateSquad.jsx'
 import FindProjects from './Pages/FindProjects.jsx'
-
+import Index from './Pages/Index.jsx'
+import AboutPage from './Pages/AboutPage.jsx'
+import ContactPage from "./Pages/ContactPage.jsx"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} >
-      <Route path="" element={<HomePage />} />
+      <Route path="" element={<Index />} />
+      <Route path="home" element={<HomePage />} />
       <Route path="profile" element={<UserProfile />} />
+      <Route path="about" element={<AboutPage/>} />
+      <Route path="contact" element={<ContactPage/>} />
       <Route path="user_profile/:id" element={<UserProfile />} />
       <Route path="squads_profile" element={<SquadProfile />} />
       <Route path="login" element={<Login/>} />

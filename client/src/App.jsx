@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import { Outlet, useLocation } from 'react-router-dom';
 import Footer from './components/Footer';
+import Headerlanding from './Pages/Headerlanding';
 
 function App() {
   const location = useLocation();
@@ -12,11 +13,12 @@ function App() {
         <Outlet />
       ) : (
         <>
-          <Header />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {(location.pathname == "/" || location.pathname == "/about" || location.pathname == "/contact") ? <Headerlanding /> : <Header />}
+          <main className="max-w-7xl">
             <Outlet />
           </main>
-          <Footer/>
+          {(location.pathname !== "/" || location.pathname !== "/about" || location.pathname !== "/contact") && <Footer/>}
+          {/* <Footer/> */}
         </>
       )}
     </div>

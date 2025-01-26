@@ -1,13 +1,14 @@
 import React from 'react';
 import { MessageSquare, UserPlus, Award } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function ProfileCard({ profile }) {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 transition-all hover:shadow-xl">
+    <Link to={`/user_profile/${profile.userId}`} className="bg-white rounded-xl shadow-lg p-6 transition-all hover:shadow-xl">
       <div className="flex gap-6 mb-4">
         <div className="relative flex-shrink-0">
           <img
-            src={profile.imageUrl}
+            src={profile.profileImage}
             alt={profile.name}
             className="w-24 h-24 rounded-full object-cover"
           />
@@ -18,7 +19,7 @@ export function ProfileCard({ profile }) {
         
         <div className="flex-1">
           <h3 className="text-xl font-semibold text-gray-800">{profile.name}</h3>
-          <p className="text-gray-600">{profile.groupName || 'No Group'}</p>
+          <p className="text-gray-600">{profile.squad || 'No Group'}</p>
           {profile.seekingGroup && (
             <div className="bg-purple-100 text-[#7000f0] text-sm py-1 px-3 rounded-full inline-block mt-2">
               Seeking Group
@@ -27,30 +28,19 @@ export function ProfileCard({ profile }) {
         </div>
       </div>
 
-      <p className="text-gray-700 mb-4">{profile.bio}</p>
+      <p className="text-gray-700 mb-4">{profile.about}</p>
 
       <div className="flex flex-wrap gap-2 mb-4">
-        {profile.tags.map((tag) => (
+        {profile.skills.map((tag) => (
           <span
             key={tag}
-            className="bg-[#d24df7] bg-opacity-10 text-[#7000f0] text-sm py-1 px-3 rounded-full"
+            className="bg-[#d24df7] bg-opacity-10 text-white text-sm py-1 px-3 rounded-full"
           >
             {tag}
           </span>
         ))}
       </div>
 
-      <div className="flex gap-2 mb-4">
-        {profile.achievements.map((achievement) => (
-          <div
-            key={achievement}
-            className="flex items-center text-sm text-gray-600"
-          >
-            <Award className="w-4 h-4 mr-1 text-[#d24df7]" />
-            {achievement}
-          </div>
-        ))}
-      </div>
 
       <div className="flex gap-2">
         <button className="flex-1 bg-[#7000f0] text-white py-2 px-4 rounded-lg hover:bg-[#6000d0] transition-colors flex items-center justify-center gap-2">
@@ -62,6 +52,6 @@ export function ProfileCard({ profile }) {
           Message
         </button>
       </div>
-    </div>
+    </Link>
   );
 }

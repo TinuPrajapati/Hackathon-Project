@@ -58,7 +58,7 @@ function SignUp() {
       }).then((result) => {
         if (result.isConfirmed) {
           Cookies.set('name', response.data.token, { expires: 7 })
-          navigate("/")
+          navigate("/home")
         }
       });
       setFormData({

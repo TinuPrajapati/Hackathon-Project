@@ -24,7 +24,7 @@ const AboutHero = () => {
       <p className="text-lg sm:text-xl mb-6">
         We are a team dedicated to creating impactful solutions for the future. Learn more about our mission and values.
       </p>
-      <a href="#mission" className="bg-transparent border border-2 border-white text-white py-2 px-6 rounded-lg text-lg hover:bg-purple-600 transition">
+      <a href="#mission" className="bg-transparent border-2 border-white text-white py-2 px-6 rounded-lg text-lg hover:bg-purple-600 transition">
         Learn More
       </a>
     </div>
