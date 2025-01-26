@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Twitter, Mail, Camera, X, Instagram, Plus } from 'lucide-react';
 import axios from 'axios';
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -17,7 +20,7 @@ function App() {
         github: "",
         linkedin: "",
         twitter: "",
-        portfolio:""
+        portfolio: ""
     });
 
     const [newSkill, setNewSkill] = useState('');
@@ -60,13 +63,20 @@ function App() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/update_user`, {...formData,image:formData.profileImage}, {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/update_user`, { ...formData, image: formData.profileImage }, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
                 withCredentials: true
             });
-            console.log(response.data)
+            Swal.fire({
+                title: response.data.message,
+                icon: "success"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/profile")
+                }
+            });
             getUser()
         } catch (error) {
             console.log(error);
@@ -275,7 +285,7 @@ function App() {
                     </div>
                 </div>
 
-                <div className="flex justify-end gap-4">
+                <div className="flex justify-end gap-4 mt-4">
                     <button type="button" className="px-6 py-2 border rounded-lg">Cancel</button>
                     <button type="submit" className="px-6 py-2 bg-purple-600 text-white rounded-lg">Save Changes</button>
                 </div>
