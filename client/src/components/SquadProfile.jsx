@@ -48,8 +48,8 @@ function SquadProfile({ setOpen }) {
                         <h3 className="text-xl font-semibold text-gray-700 mb-4">Members</h3>
                         <div className="grid grid-cols-4 gap-2.5 overflow-y-auto max-h-48">
                             {members.map((member) => (
-                                <div key={member.id} className="flex items-center space-x-3 p-3 bg-gradient-to-br from-indigo-100 to-blue-200 rounded-lg">
-                                    <div className="w-10 h-10 custom-gradient rounded-full bg-blue-400 flex items-center justify-center text-white font-medium text-xl">
+                                <div key={member.id} className="flex items-center space-x-3 p-3 bg-gradient-to-br from-purple-200 to-blue-200 rounded-lg">
+                                    <div className="w-10 h-10 custom-gradient rounded-full bg-purple-400 flex items-center justify-center text-white font-medium text-xl">
                                         {member.name.charAt(0)}
                                     </div>
                                     <div className="flex-1">
