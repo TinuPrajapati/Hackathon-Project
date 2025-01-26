@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import main from './lib/dbConfig.js';
+// import main from './lib/dbConfig.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import router_user from './routes/userRoutes.js';
@@ -23,6 +23,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Database Connection
+import mongoose from "mongoose";
+
+async function main() {
+  try {
+    await mongoose.connect(process.env.dbURI);
+    console.log('Connected to the database');
+  } catch (error) {
+    console.log('Error connecting to the database: ', error);
+  }
+}
 main();
 
 // CORS Configuration
