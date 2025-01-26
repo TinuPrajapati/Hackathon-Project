@@ -29,7 +29,7 @@ const router = createBrowserRouter(
       <Route path="setting" element={<Setting/>}/>
       <Route path="findmember" element={<FindMember/>}/>
       <Route path="mcqtestgenerator" element={<MCQTestGenerator/>}/>
-      <Route path="create_squad" element={<CreateSquad/>}/>\
+      <Route path="create_squad" element={<CreateSquad/>}/>
       <Route path="findprojects" element={<FindProjects/>}/>
     </Route>
   )
