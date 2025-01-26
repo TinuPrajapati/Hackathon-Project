@@ -263,9 +263,7 @@ function CreateSquad() {
         </div>
 
         {/* MCQ Test Generator */}
-        <div className="mt-8">
           <MCQTestGenerator onGenerate={(data) => setGeneratedTest(data)} />
-        </div>
 
         {/* Create Squad Button */}
         <div className="mt-8">
