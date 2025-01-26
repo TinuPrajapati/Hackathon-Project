@@ -31,11 +31,11 @@ Welcome to **Brain Squad**, a feature-rich task management and social collaborat
 - Share idea with friends.
 
 ### Deploy Link
-    ```https://hackathon-project-2u46.vercel.app/
+    https://hackathon-project-2u46.vercel.app/
    ```
 
 ### Backend Link
-```https://hackathon-project-vert-eight.vercel.app/
+https://hackathon-project-vert-eight.vercel.app/
    ```
 
 ## Technologies Used
