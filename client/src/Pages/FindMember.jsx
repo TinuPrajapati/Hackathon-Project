@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Users, Sliders } from 'lucide-react';
 import { ProfileCard } from '../components/ProfileCard';
 import { SearchBar } from '../components/SearchBar';
@@ -10,13 +10,12 @@ function FindMember() {
   const [sortBy, setSortBy] = useState('activity');
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
-  const [userData, setUserData] = useState([]); // To store the users fetched from API
 
   const allTags = Array.from(
-    new Set(userData.flatMap((profile) => profile.tags))
+    new Set(mockProfiles.flatMap((profile) => profile.tags))
   );
 
-  const filteredProfiles = userData
+  const filteredProfiles = mockProfiles
     .filter((profile) => {
       if (showOnlineOnly && !profile.isOnline) return false;
       if (selectedTags.length > 0 && !profile.tags.some((tag) => selectedTags.includes(tag)))
@@ -58,9 +57,9 @@ function FindMember() {
   }, []);
 
   return (
-    <div className="min-h-screen mt-10">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#7000f0] to-[#d24df7] text-white py-16 px-4 rounded-3xl">
+      <div className="bg-gradient-to-r from-[#7000f0] to-[#d24df7] text-white py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
             <Users className="w-12 h-12" />
@@ -126,25 +125,26 @@ function FindMember() {
         </div>
 
         {/* Featured Section */}
-        {/* {filteredProfiles.some((p) => p.achievements.length > 0) && (
+        {filteredProfiles.some((p) => p.achievements.length > 0) && (
           <div className="mt-12">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Featured Members</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProfiles
+                .filter((p) => p.achievements.length > 0)
                 .slice(0, 3)
                 .map((profile) => (
                   <ProfileCard key={profile.id} profile={profile} />
                 ))}
             </div>
           </div>
-        )} */}
+        )}
 
         {/* All Profiles */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">All Members</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProfiles.map((profile) => (
-              <ProfileCard key={profile._id} profile={profile} />
+              <ProfileCard key={profile.id} profile={profile} />
             ))}
           </div>
         </div>

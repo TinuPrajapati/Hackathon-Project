@@ -129,10 +129,14 @@ function FindProjects() {
 
   return (
     <div className="min-h-screen p-6">
-      <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-purple-500 mb-2">
-          Get Inspired, Create, Inspire Others
-        </h1>
+      <header className="text-center mt-20 mb-8">
+      <h2 className="text-5xl font-bold text-gray-900 mb-4 leading-tight">
+      Get Inspired, Create,
+        <span className="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent"> Inspire Others</span>
+      </h2>
+      <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+      "Discover like-minded individuals, collaborate on exciting projects, and bring your ideas to life together."
+      </p>
       </header>
 
       {/* Search Bar */}
@@ -143,7 +147,7 @@ function FindProjects() {
             placeholder="Search for inspiration..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
           />
           <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
         </div>
