@@ -68,9 +68,11 @@ const AddNewProject = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-6 space-y-6 border border-gray-300">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Create New Project</h2>
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 overflow-y-auto max-h-[90vh]">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            Create New Project
+          </h2>
 
           {/* Project Title */}
           <div className="space-y-2">
