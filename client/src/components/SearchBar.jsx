@@ -10,7 +10,7 @@ export function SearchBar({ value, onChange }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Search by name, skills, or location..."
-        className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-500 focus:border-[#7000f0] focus:ring-2 focus:ring-[#7000f0] focus:ring-opacity-20 outline-none transition-all"
+        className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-500 focus:border-[#7000f0] focus:bg-white focus:ring-2 focus:ring-[#7000f0] focus:ring-opacity-20 outline-none transition-all"
       />
     </div>
   );
