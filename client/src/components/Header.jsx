@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import logo from '../assets/BrainSquad_logo.jpg'
 
 const Header = () => {
     const navigate = useNavigate()
@@ -47,7 +48,7 @@ const Header = () => {
         <header className={`sticky top-2 z-10 h-[10vh] w-full flex items-center justify-center transition-all duration-300`}>
             <div className='w-[90%] h-full bg-white/80 backdrop-blur-xl flex items-center justify-between px-3 rounded-full shadow-lg'>
                 <Link to="/" className="flex shrink-0 items-center">
-                    <img className="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                    <img className="h-8 w-auto" src={logo} alt="Your Company" />
                 </Link>
                 <div className="hidden sm:block">
                     <div className="flex space-x-4">

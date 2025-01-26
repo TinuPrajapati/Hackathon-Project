@@ -137,7 +137,7 @@ function UserProfile() {
       {/* Dialog Box for Adding a New Project */}
       {isDialogOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg relative">
+          <div className="bg-white rounded-lg h-max shadow-lg p-4 w-full max-w-lg relative">
             {/* Cross Button */}
             <button
               onClick={() => setIsDialogOpen(false)}
