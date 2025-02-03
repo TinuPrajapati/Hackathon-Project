@@ -14,7 +14,7 @@ function App() {
       ) : (
         <>
           {(location.pathname == "/" || location.pathname == "/about" || location.pathname == "/contact") ? <Headerlanding /> : <Header />}
-          <main className="max-w-7xl">
+          <main className="max-w-7xl mx-auto">
             <Outlet />
           </main>
           {(location.pathname != "/" || location.pathname != "/about" || location.pathname != "/contact") && <Footer/>}
