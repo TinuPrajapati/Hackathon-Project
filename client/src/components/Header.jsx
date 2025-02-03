@@ -66,6 +66,7 @@ const Header = () => {
             getUser()
         } catch (error) {
             setLogin(false)
+            // console.log(error)
         }
     };
 
